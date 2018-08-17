@@ -1,0 +1,12 @@
+#' epiAllele
+#'
+#' Description of your package
+#'
+#' @docType package
+#' @author Noah Dukler <ndukler@cshl.edu>
+#' @importFrom data.table :=
+#' @importFrom foreach %do%
+#' @importFrom foreach %dopar%
+#' @useDynLib epiAllele
+#' @name epiAllele
+NULL
