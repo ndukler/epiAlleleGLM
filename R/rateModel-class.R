@@ -6,7 +6,7 @@
 #' @rdname rateModel-class
 #' @exportClass rateModel
 methods::setClass("rateModel", representation(alleleData = "alleleData",rateGroups="data.table",siteLabelCriteria="character",
-                                              rateTable="data.frame"))
+                                              siteLabels="rle"))
 
 #' rateModel
 #'
@@ -25,8 +25,10 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL){
     stop("data must be of class alleleData")
   }
   ## Check that all siteLabelCriteria elements are columns in alleleData@siteInfo
-  if(!is.null(siteLabelCriteria) && !all(siteLabelCriteria %in% colnames(data@siteInfo))){
+  if(is.null(siteLabelCriteria)){
+    siteLabels=rle(rep("1",nrow(data@data)))   
+  } else(!all(siteLabelCriteria %in% colnames(data@siteInfo))){
     stop("Not all siteLabelCriteria are columns in data@siteInfo")
   }
-  ## If line
+  ## Check if lineage table contains all edges 
 }
