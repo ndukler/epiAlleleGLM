@@ -11,19 +11,21 @@ Imports: Rcpp (>= 0.12.17),
          ape,
          data.table,
          ggplot2,
-         cowplot
+         cowplot,
+         foreach
 LinkingTo: Rcpp
 Encoding: UTF-8
 Suggests: testthat,
     knitr,
     rmarkdown
 RoxygenNote: 6.1.0.9000
-Collate:
+Collate: 
     'RcppExports.R'
     'alleleDataValidityCheck.R'
     'alleleData-class.R'
     'rateModel-class.R'
     'getEdgeTable.R'
+    'getSiteInfo.R'
     'package.R'
     'plotTree.R'
     'treeLayout.R'
