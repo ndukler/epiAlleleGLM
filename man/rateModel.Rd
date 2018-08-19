@@ -14,7 +14,7 @@ rateModel(data, siteLabelCriteria = NULL, lineageTable = NULL)
 \item{lineageTable}{A table with columns parent,child,edgeID, and rateGroup, where rateGroup is used to specify how the rates are tied between the branches}
 }
 \value{
-an alleleData object
+an rateModel object
 }
 \description{
 Contructs an object that holds the allele data and the phylogenetic tree
