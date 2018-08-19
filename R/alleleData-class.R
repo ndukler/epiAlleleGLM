@@ -1,6 +1,6 @@
 ## Send request to ape package people to do this rather than doing it myself
 ## setOldClass("phylo")
-## #' @importClassesFrom ape phylo
+#' @importClassesFrom data.table data.table
 
 #' Class alleleData
 #'
@@ -10,7 +10,7 @@
 #' @rdname alleleData-class
 #' @include alleleDataValidityCheck.R
 #' @exportClass alleleData
-methods::setClass("alleleData", representation(data = "matrix", tree = "ANY", siteInfo="data.frame",nAlleles="numeric",nSpecies="numeric"),
+methods::setClass("alleleData", representation(data = "matrix", tree = "ANY", siteInfo="data.table",nAlleles="numeric",nSpecies="numeric"),
                   validity = alleleDataValidityCheck)
 
 #' alleleData
@@ -47,6 +47,12 @@ alleleData <- function(data,tree,siteInfo=NULL,logProb = FALSE){
   if(ape::is.rooted(tree)){
     write("Unrooting tree...",stdout())
     tree=ape::unroot(tree)  
+  } 
+  ## Check that siteInfo is a data.frame (or data.table)
+  if(!is.data.frame(siteInfo)){
+    stop("siteInfo must be a data.frame or a data.table")
+  } else {
+    siteInfo=data.table::as.data.table(siteInfo)
   }
   
   ## **Object construction and associated computations/formatting**
@@ -59,7 +65,7 @@ alleleData <- function(data,tree,siteInfo=NULL,logProb = FALSE){
                         unlist(lapply(data[tree$tip.label], function(x) 1:ncol(x))))
   ## If site info is NULL, create faux site info that groups all sites together
   if(is.null(siteInfo)){
-    siteInfo=data.frame(default=rep(1,nrow(dataMatrix)))
+    siteInfo=data.table::data.table(data.table(default=rep(1,nrow(dataMatrix))))
   }
   ## Log data if necessary
   if(!logProb){
