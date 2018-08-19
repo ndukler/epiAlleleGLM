@@ -14,9 +14,11 @@ Imports: Rcpp (>= 0.12.17),
          cowplot
 LinkingTo: Rcpp
 Encoding: UTF-8
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
 RoxygenNote: 6.1.0.9000
-Collate: 
+Collate:
     'RcppExports.R'
     'alleleDataValidityCheck.R'
     'alleleData-class.R'
@@ -25,3 +27,4 @@ Collate:
     'package.R'
     'plotTree.R'
     'treeLayout.R'
+VignetteBuilder: knitr
