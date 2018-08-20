@@ -12,6 +12,7 @@ vignette: >
 First create some data and a tree. Pretend that sites are split into two classes, "Enhancer" and "Promoter" and also split by ontology classes "A" and "B".
 
 ```{r}
+library(epiAllele)
 ## Set seed for consistency
 set.seed(123)
 ## Simulate random data

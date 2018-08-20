@@ -2,9 +2,13 @@
 
 export(alleleData)
 export(clone)
+export(getEdgeGroup)
+export(getEdgeGroupTable)
 export(getEdgeTable)
 export(getLabelIndices)
+export(getRateIndex)
 export(getSiteInfo)
+export(getTree)
 export(plotTree)
 export(rateModel)
 export(tieRates)

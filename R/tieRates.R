@@ -1,12 +1,12 @@
-methods::setGeneric("tieRates", function(obj,siteLabelA,edgeGroupA,siteLabelB,edgeGroupB) {
+methods::setGeneric("tieRates", function(rateMod,siteLabelA,edgeGroupA,siteLabelB,edgeGroupB) {
   standardGeneric("tieRates")
 })
 
 #' Get all site indices for a label 
 #'
 #' Gets indicies of all sites with a given label
-#' @param obj a rateModel object
-#' @param siteLabelA a label
+#' @param rateMod a rateModel object
+#' @param siteLabelA 
 #' @param edgeGroupA foo
 #' @param siteLabelB a label
 #' @param edgeGroupB foo
@@ -15,6 +15,6 @@ methods::setGeneric("tieRates", function(obj,siteLabelA,edgeGroupA,siteLabelB,ed
 #' @examples
 #' 
 #' @export
-methods::setMethod("tieRates", signature(obj = "rateModel"), function(obj,siteLabelA,edgeGroupA,siteLabelB,edgeGroupB) {
-  return(NULL)
+methods::setMethod("tieRates", signature(rateMod = "rateModel"), function(rateMod,siteLabelA,edgeGroupA,siteLabelB,edgeGroupB) {
+  
 })
