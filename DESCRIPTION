@@ -25,8 +25,11 @@ Collate:
     'alleleData-class.R'
     'rateModel-class.R'
     'getEdgeTable.R'
+    'getLabelIndices.R'
     'getSiteInfo.R'
     'package.R'
     'plotTree.R'
+    'rateModelValidityCheck.R'
+    'tieRates.R'
     'treeLayout.R'
 VignetteBuilder: knitr
