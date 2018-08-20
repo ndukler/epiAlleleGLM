@@ -4,7 +4,8 @@
 \alias{rateModel}
 \title{rateModel}
 \usage{
-rateModel(data, siteLabelCriteria = NULL, lineageTable = NULL)
+rateModel(data, siteLabelCriteria = NULL, lineageTable = NULL,
+  rate = NULL, pi = NULL)
 }
 \arguments{
 \item{data}{An alleleData object}
@@ -12,6 +13,10 @@ rateModel(data, siteLabelCriteria = NULL, lineageTable = NULL)
 \item{siteLabelCriteria}{A charecter vector of the columns in siteData contained in alleleData label genomic regions}
 
 \item{lineageTable}{A table with columns parent,child,edgeID, and rateGroup, where rateGroup is used to specify how the rates are tied between the branches}
+
+\item{rate}{Starting value for rate parameter. (Default: 0.1)}
+
+\item{pi}{Starting frequencies for allele stationary distribution. Must be the same length as the number of alleles. Default is a uniform probability.}
 }
 \value{
 an rateModel object

@@ -6,3 +6,15 @@
 \description{
 Class \code{rateModel} holds the allelic probabilities and corresponding phylogenetic tree
 }
+\section{Slots}{
+
+\describe{
+\item{\code{alleleData}}{an allele data object}
+
+\item{\code{edgeGroups}}{a data.table with four columns: parent, child, edgeID, edgeGroup. EdgeIDs must match those of alleleData object.}
+
+\item{\code{siteLabelCriteria}}{a character vector containing the names of the columns in alleleData@siteInfo to use to label sites}
+
+\item{\code{paramEnviron}}{A locked environment that contains three elements params, paramIndex, and fixed}
+}}
+
