@@ -22,7 +22,7 @@ rateModel(data, siteLabelCriteria = NULL, lineageTable = NULL,
 an rateModel object
 }
 \description{
-Contructs an object that holds the allele data and the phylogenetic tree
+Contructs an object that holds a rate model for a set of alleles
 }
 \examples{
 
