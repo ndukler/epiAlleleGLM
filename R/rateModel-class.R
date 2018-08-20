@@ -11,7 +11,7 @@
 #' @rdname rateModel-class
 #' @importClassesFrom data.table data.table
 #' @exportClass rateModel
-methods::setClass("rateModel", representation(alleleData = "alleleData",edgeGroups="data.table",
+methods::setClass("rateModel", slots=c(alleleData = "alleleData",edgeGroups="data.table",
                                               siteLabelCriteria="character",siteLabels="data.table",
                                               paramEnviron="environment"))
 
