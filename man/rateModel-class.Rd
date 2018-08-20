@@ -4,7 +4,7 @@
 \alias{rateModel-class}
 \title{Class rateModel}
 \description{
-Class \code{rateModel} holds the allelic probabilities and corresponding phylogenetic tree
+Class \code{rateModel} holds a rate model for a set of alleles
 }
 \section{Slots}{
 
