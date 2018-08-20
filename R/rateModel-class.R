@@ -1,6 +1,6 @@
 #' Class rateModel
 #'
-#' Class \code{rateModel} holds the allelic probabilities and corresponding phylogenetic tree
+#' Class \code{rateModel} holds a rate model for a set of alleles
 #'
 #' @slot alleleData an allele data object
 #' @slot edgeGroups a data.table with four columns: parent, child, edgeID, edgeGroup. EdgeIDs must match those of alleleData object.
@@ -8,18 +8,18 @@
 #' @slot paramEnviron A locked environment that contains three elements params, paramIndex, and fixed
 #'
 #' @name rateModel-class
-#' @rdname rateModel-
+#' @rdname rateModel-class 
 #' @include rateModelValidityCheck.R
 #' @importClassesFrom data.table data.table
 #' @exportClass rateModel
 methods::setClass("rateModel", slots=c(alleleData = "alleleData",edgeGroups="data.table",
                                               siteLabelCriteria="character",siteLabels="data.table",
                                               paramEnviron="environment"),
-                  validity = alleleDataValidityCheck)
+                  validity = rateModelValidityCheck)
 
 #' rateModel
 #'
-#' Contructs an object that holds the allele data and the phylogenetic tree
+#' Contructs an object that holds a rate model for a set of alleles
 #' @param data An alleleData object
 #' @param siteLabelCriteria A charecter vector of the columns in siteData contained in alleleData label genomic regions
 #' @param lineageTable A table with columns parent,child,edgeID, and rateGroup, where rateGroup is used to specify how the rates are tied between the branches
