@@ -2,9 +2,9 @@ methods::setGeneric("getEdgeTable", function(obj) {
   standardGeneric("getEdgeTable")
 })
 
-#' Tree visualization
+#' Get edge table
 #'
-#' Plots tree with various helpful highlightings
+#' Returns edge table. Useful for construction of rateModel class.
 #' @param x alleleData
 #' @name getEdgeTable
 #' @return data.table containing edge ids

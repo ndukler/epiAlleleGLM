@@ -5,9 +5,9 @@ methods::setGeneric("getSiteInfo", function(obj) {
 #' Extract site information table
 #'
 #' Extracts site information table
-#' @param x alleleData or rateModel object
-#' @name getEdgeTable
-#' @return data.table containing edge ids
+#' @param obj alleleData or rateModel object
+#' @name getSiteInfo
+#' @return data.table containing site info
 #' @include alleleData-class.R
 #' @include rateModel-class.R
 #' @examples
