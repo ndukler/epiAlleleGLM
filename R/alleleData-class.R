@@ -1,6 +1,5 @@
 ## Send request to ape package people to do this rather than doing it myself
 ## setOldClass("phylo")
-#' @importClassesFrom data.table data.table
 
 #' Class alleleData
 #'
@@ -9,6 +8,7 @@
 #' @name alleleData-class
 #' @rdname alleleData-class
 #' @include alleleDataValidityCheck.R
+#' @importClassesFrom data.table data.table
 #' @exportClass alleleData
 methods::setClass("alleleData", representation(data = "matrix", tree = "ANY", siteInfo="data.table",nAlleles="numeric",nSpecies="numeric"),
                   validity = alleleDataValidityCheck)
