@@ -4,8 +4,8 @@ rateModelValidityCheck <- function(object){
   if(!setequal(colnames(object@edgeGroups),c("parent","child","edgeID","edgeGroup"))){
     errors=c(errors,"Colnames of edgeGroups must be \'parent\', \'child\', \'edgeID\',\'edgeGroup\'")
   }
-  if(!setequal(data.table::key(object@edgeGroups),c("parent","child"))){
-    errors=c(errors,"Keys of edgeGroups must be \'parent\', \'child\'")
+  if(!setequal(data.table::key(object@edgeGroups),c("edgeID"))){
+    errors=c(errors,"Key of edgeGroups must be \'edgeID\'")
   }
   if(!setequal(colnames(object@siteLabels),"siteLabel")){
     errors=c(errors,"object@siteLabels must have only one column, \'siteLabel\'")  

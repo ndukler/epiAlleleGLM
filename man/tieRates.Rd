@@ -4,9 +4,9 @@
 \alias{tieRates}
 \title{Get all site indices for a label}
 \arguments{
-\item{obj}{a rateModel object}
+\item{rateMod}{a rateModel object}
 
-\item{siteLabelA}{a label}
+\item{siteLabelA}{}
 
 \item{edgeGroupA}{foo}
 
