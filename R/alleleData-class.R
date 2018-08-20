@@ -49,7 +49,7 @@ alleleData <- function(data,tree,siteInfo=NULL,logProb = FALSE){
     tree=ape::unroot(tree)  
   } 
   ## Check that siteInfo is a data.frame (or data.table)
-  if(!is.data.frame(siteInfo)){
+  if(!is.null(siteInfo) && !is.data.frame(siteInfo)){
     stop("siteInfo must be a data.frame or a data.table")
   } else {
     siteInfo=data.table::as.data.table(siteInfo)
