@@ -84,7 +84,12 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
   
   ## Renormalize pi
   pi=pi/sum(pi)
-    
+  
+  ## Standardize format for lineageTable
+  pcDT=data.table::rbindlist(lapply(strsplit(lineageTable$edgeID,split = "-"),function(x) data.table::data.table(parent=x[1],child=x[2])))
+  lineageTable[,c("parent","child"):= .(pcDT$parent,pcDT$child)]
+  data.table::setcolorder(lineageTable,c("parent","child","edgeID","edgeGroup"))
+  
   ## Create labels for each site
   siteLabels=getSiteInfo(data)[,..siteLabelCriteria][,.(siteLabel=do.call(paste, c(.SD, sep = "_")))]
   siteLabels[,siteLabel:=factor(siteLabel)]
