@@ -56,7 +56,7 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
   ## Color by indicated option
   if(colorByRate=="index"){
     g=g+ggplot2::aes(color=index)+
-      ggplot2::scale_color_viridis_d(breaks=levels(temp$index),end=0.7)
+      ggplot2::scale_color_manual(values=randomcoloR::distinctColorPalette(length(levels(g$data$index))),breaks=levels(temp$index))
   } else if(colorByRate=="value"){
     g=g+ggplot2::aes(color=value)+
       ggplot2::scale_color_viridis_c(end=0.7)
