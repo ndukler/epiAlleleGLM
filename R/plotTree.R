@@ -1,7 +1,8 @@
 #' Tree visualization
 #'
 #' Plots tree with various helpful highlightings
-#' @param x alleleData
+#' @param obj alleleData
+#' @param colorByRate Can be set to either color by the grouping of rates or their actual values. Only usable with rateModel object.
 #' @name plotTree
 #' @include alleleData-class.R
 #' @include rateModel-class.R
@@ -37,21 +38,29 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
     temp[[l]]=data.table::data.table(node = getEdgeGroupTable(obj)$child,index=getRateIndex(obj,edges = getEdgeGroupTable(obj)[,.(parent,child)],siteLabel = l))
     trList[[l]]=tr
   }
-  temp=data.table::rbindlist(temp)
-  temp[,color:=viridisLite::viridis(max(index))[index]]
+  temp=data.table::rbindlist(temp,idcol=TRUE)
+  temp[,index:=factor(index)]
+  temp[,value:=obj@paramEnviron$params[index]]
   class(trList) <- "multiPhylo"
   
 
-  
   ## plot building
-  g <- ggtree::ggtree(trList,aes(color=I(color)) )+
-    ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)+
+  g <- ggtree::ggtree(trList)+
+    ggplot2::geom_label(ggplot2::aes(label=node),color="black", hjust=0.5)+
     ggtree::theme_tree2()+
     ggplot2::facet_wrap(~.id, scale="free") + 
-    ggplot2::theme(legend.position = "bottom")
+    ggplot2::theme(legend.position = "bottom")+
+    ggplot2::theme(legend.position="right")
+  ## Merge in new data
+  g$data=merge(g$data,temp,by = c(".id","node"),all.x = TRUE)   
+  ## Color by indicated option
+  if(colorByRate=="index"){
+    g=g+ggplot2::aes(color=index)+
+      ggplot2::scale_color_viridis_d(breaks=levels(temp$index),end=0.7)
+  } else if(colorByRate=="value"){
+    g=g+ggplot2::aes(color=value)+
+      ggplot2::scale_color_viridis_c(end=0.7)
+  }
   
-  g %<+% temp + aes(color=I(color)) 
   return(g)
-
-  
 })

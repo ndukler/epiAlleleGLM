@@ -4,7 +4,9 @@
 \alias{plotTree}
 \title{Tree visualization}
 \arguments{
-\item{x}{alleleData}
+\item{obj}{alleleData}
+
+\item{colorByRate}{Can be set to either color by the grouping of rates or their actual values. Only usable with rateModel object.}
 }
 \description{
 Plots tree with various helpful highlightings
