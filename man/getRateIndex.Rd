@@ -9,6 +9,8 @@
 \item{edges}{Can either be a data.frame/data.table with two columns, \'parent\' and \'child\' or a character vector of edgeIDs}
 
 \item{siteLabel}{A character vector of length one for one of the site labels}
+
+\item{edgeGroup}{Instead of the edges argument, a vector of edge groups can be supplied. Only one can be non-null}
 }
 \value{
 A numeric vector of parameter indices
