@@ -2,7 +2,7 @@
 % Please edit documentation in R/getRateIndex.R
 \name{getRateIndex}
 \alias{getRateIndex}
-\title{Get parameter index}
+\title{Get rate parameter index}
 \arguments{
 \item{obj}{rateModel object}
 
@@ -10,13 +10,13 @@
 
 \item{siteLabel}{A character vector of length one for one of the site labels}
 
-\item{edgeGroup}{Instead of the edges argument, a vector of edge groups can be supplied. Only one can be non-null}
+\item{edgeGroup}{Instead of the edges argument, a vector of edge groups can be supplied. Only one can be specified.}
 }
 \value{
 A numeric vector of parameter indices
 }
 \description{
-Returns parameter index as data.table
+Returns index of a rate parameter associated with a given edge/edgeGroup and siteLabel
 }
 \examples{
 

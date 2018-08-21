@@ -1,6 +1,6 @@
-#' Get parameter index
+#' Get rate parameter index
 #'
-#' Returns parameter index as data.table 
+#' Returns index of a rate parameter associated with a given edge/edgeGroup and siteLabel 
 #' @param obj rateModel object
 #' @param edges Can either be a data.frame/data.table with two columns, \'parent\' and \'child\' or a character vector of edgeIDs
 #' @param siteLabel A character vector of length one for one of the site labels
