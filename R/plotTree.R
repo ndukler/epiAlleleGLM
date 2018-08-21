@@ -39,8 +39,8 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
     trList[[l]]=tr
   }
   temp=data.table::rbindlist(temp,idcol=TRUE)
+  temp[,value:=getParamValue(obj,index)]
   temp[,index:=factor(index)]
-  temp[,value:=obj@paramEnviron$params[index]]
   class(trList) <- "multiPhylo"
   
 

@@ -41,5 +41,10 @@ rateMod=rateModel(ad,siteLabelCriteria = c("cre.class","go.class"))
 
 Note that the model assumes that all different genomic regions have different rate parameters. This can be seen using the plotTree command.
  
+```{r}
+plotTree(obj = rateMod,colorByRate="index")
+```
+
+ 
 Say we want to allow for lineage specific rates. Then we can extract and edge table from the allele data object and add a column called edgeGroup to 
 
