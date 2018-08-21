@@ -7,6 +7,7 @@
 #' @importFrom data.table :=
 #' @importFrom foreach %do%
 #' @importFrom foreach %dopar%
+#' @importFrom ggtree %<+%
 #' @useDynLib epiAllele
 #' @name epiAllele
 NULL

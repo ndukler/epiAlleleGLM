@@ -12,7 +12,8 @@ Imports: Rcpp (>= 0.12.17),
          data.table,
          ggplot2,
          cowplot,
-         foreach
+         foreach,
+         ggtree
 LinkingTo: Rcpp
 Encoding: UTF-8
 Suggests: testthat,

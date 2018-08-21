@@ -32,16 +32,25 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
   ## Compute edge coloring
   tr=getTree(obj)
   temp=list()
+  trList=list()
   for(l in levels(obj@siteLabels$siteLabel)){
-    temp[[l]]=data.table::data.table(child = getEdgeGroupTable(obj)$child,index=getRateIndex(obj,edges = getEdgeGroupTable(obj)[,.(parent,child)],siteLabel = l))
+    temp[[l]]=data.table::data.table(node = getEdgeGroupTable(obj)$child,index=getRateIndex(obj,edges = getEdgeGroupTable(obj)[,.(parent,child)],siteLabel = l))
+    trList[[l]]=tr
   }
   temp=data.table::rbindlist(temp,idcol="siteLabel")
+  temp[,color:=viridisLite::viridis(max(index))[index]]
+  class(trList) <- "multiPhylo"
   
+
   
   ## plot building
-  g <- ggtree::ggtree(obj@alleleData@tree)+
+  g <- ggtree::ggtree(trList)+
     ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)+
-    ggtree::theme_tree2()
-  g %<+% temp + aes(color=index) + facet_wrap(~siteLabel, scale="free")
+    ggtree::theme_tree2()+
+    ggplot2::facet_wrap(~siteLabel, scale="free")
+  
+  g %<+% temp[index==1] + aes(color=color) 
   return(g)
+
+  
 })
