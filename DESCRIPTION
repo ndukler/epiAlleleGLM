@@ -37,5 +37,6 @@ Collate:
     'getTree.R'
     'package.R'
     'plotTree.R'
+    'setParamValue.R'
     'tieRates.R'
 VignetteBuilder: knitr
