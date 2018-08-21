@@ -88,8 +88,7 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
   pi=pi/sum(pi)
   
   ## Standardize format for lineageTable
-  pcDT=data.table::rbindlist(lapply(strsplit(lineageTable$edgeID,split = "-"),function(x) data.table::data.table(parent=x[1],child=x[2])))
-  lineageTable[,c("parent","child"):= .(pcDT$parent,pcDT$child)]
+  lineageTable[,c("parent","child"):=as.list(as.integer(unlist(strsplit(edgeID,split = "-")))),by="edgeID"]
   data.table::setcolorder(lineageTable,c("parent","child","edgeID","edgeGroup"))
   data.table::setkeyv(x = lineageTable,cols = c("edgeID"))
   
@@ -115,6 +114,7 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
   paramEnviron$paramIndex=paramIndex
   paramEnviron$params=params
   paramEnviron$fixed=logical(length(params))
+  paramEnviron$logLikelihood=numeric(1)
   
   ## ** Object construction ** ##
   methods::new("rateModel",alleleData=data,edgeGroups=lineageTable,siteLabelCriteria=siteLabelCriteria,
