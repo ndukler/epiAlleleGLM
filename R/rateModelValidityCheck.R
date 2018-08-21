@@ -10,8 +10,8 @@ rateModelValidityCheck <- function(object){
   if(!setequal(colnames(object@siteLabels),"siteLabel")){
     errors=c(errors,"object@siteLabels must have only one column, \'siteLabel\'")  
   }
-  if(!setequal(names(object@paramEnviron),c("params","paramIndex","fixed"))){
-    errors=c(errors,"object@paramEnviron must have three slots, \'params\', \'paramIndex\', \'fixed\'") 
+  if(!setequal(names(object@paramEnviron),c("params","paramIndex","fixed","logLikelihood"))){
+    errors=c(errors,"object@paramEnviron must have three slots, \'params\', \'paramIndex\', \'fixed\',\'logLikelihood\'") 
   } else {
     ## Checks for paramIndex in environment
     if(!data.table::is.data.table(object@paramEnviron$paramIndex)){
@@ -29,6 +29,10 @@ rateModelValidityCheck <- function(object){
     ## Checks for the fixed vector
     if(!is.logical(object@paramEnviron$fixed) || length(object@paramEnviron$fixed) != expLen){
       errors=c(errors,paste("object@paramEnviron$fixed must be a logical vector of length",expLen)) 
+    }
+    ## Checks for the logLikelihood vector
+    if(!is.numeric(object@paramEnviron$logLikelihood) || length(object@paramEnviron$logLikelihood) != 1){
+      errors=c(errors,"object@paramEnviron$logLikelihood must be a numeric vector of length one") 
     }
   }
   ## Lock the environment and all the bindings in it if all tests passed

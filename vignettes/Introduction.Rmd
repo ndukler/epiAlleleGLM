@@ -70,3 +70,10 @@ rateMod2=rateModel(ad,siteLabelCriteria = c("cre.class","go.class"),lineageTable
 tieRates(rateMod2,siteLabelA = "Enhancer_B",edgeGroupA = "e1",siteLabelB = "Enhancer_B",edgeGroupB = "e2")
 plotTree(obj = rateMod2,colorByRate="index")
 ```
+
+```{r}
+rateMod3=rateModel(ad,siteLabelCriteria = c("cre.class","go.class"),lineageTable = egt)
+rateMod4=rateMod3
+rateMod4@
+```
+
