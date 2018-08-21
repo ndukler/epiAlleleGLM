@@ -27,7 +27,6 @@ Collate:
     'rateModelValidityCheck.R'
     'rateModel-class.R'
     'clone.R'
-    'getEdgeGroup.R'
     'getEdgeGroupTable.R'
     'getEdgeTable.R'
     'getLabelIndices.R'
@@ -39,5 +38,4 @@ Collate:
     'package.R'
     'plotTree.R'
     'tieRates.R'
-    'treeLayout.R'
 VignetteBuilder: knitr
