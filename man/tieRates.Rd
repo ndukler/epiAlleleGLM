@@ -2,9 +2,9 @@
 % Please edit documentation in R/tieRates.R
 \name{tieRates}
 \alias{tieRates}
-\title{Get all site indices for a label}
+\title{Tie rates across siteLabels or edgeGroups}
 \arguments{
-\item{rateMod}{a rateModel object}
+\item{obj}{a rateModel object}
 
 \item{siteLabelA}{}
 
@@ -15,7 +15,7 @@
 \item{edgeGroupB}{foo}
 }
 \description{
-Gets indicies of all sites with a given label
+Sets the rate of the set of branches specified by edgeGroupB and siteLabelB equal to that of A
 }
 \examples{
 
