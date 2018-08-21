@@ -6,13 +6,13 @@
 \arguments{
 \item{obj}{a rateModel object}
 
-\item{siteLabelA}{}
+\item{siteLabelA}{site label for rate A}
 
-\item{edgeGroupA}{foo}
+\item{edgeGroupA}{edge group for rate A}
 
-\item{siteLabelB}{a label}
+\item{siteLabelB}{site label for rate B}
 
-\item{edgeGroupB}{foo}
+\item{edgeGroupB}{edge group for rate B}
 }
 \description{
 Sets the rate of the set of branches specified by edgeGroupB and siteLabelB equal to that of A
