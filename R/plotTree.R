@@ -37,19 +37,20 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
     temp[[l]]=data.table::data.table(node = getEdgeGroupTable(obj)$child,index=getRateIndex(obj,edges = getEdgeGroupTable(obj)[,.(parent,child)],siteLabel = l))
     trList[[l]]=tr
   }
-  temp=data.table::rbindlist(temp,idcol="siteLabel")
+  temp=data.table::rbindlist(temp)
   temp[,color:=viridisLite::viridis(max(index))[index]]
   class(trList) <- "multiPhylo"
   
 
   
   ## plot building
-  g <- ggtree::ggtree(trList)+
+  g <- ggtree::ggtree(trList,aes(color=I(color)) )+
     ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)+
     ggtree::theme_tree2()+
-    ggplot2::facet_wrap(~siteLabel, scale="free")
+    ggplot2::facet_wrap(~.id, scale="free") + 
+    ggplot2::theme(legend.position = "bottom")
   
-  g %<+% temp[index==1] + aes(color=color) 
+  g %<+% temp + aes(color=I(color)) 
   return(g)
 
   
