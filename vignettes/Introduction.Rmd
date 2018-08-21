@@ -16,7 +16,7 @@ library(epiAllele)
 ## Set seed for consistency
 set.seed(123)
 ## Simulate random data
-species=c("A","B","C")
+species=c("A","B","C","D","E")
 aData=lapply(as.list(species),function(x) matrix(runif(120),ncol=3))
 names(aData)=species
 
@@ -48,3 +48,25 @@ plotTree(obj = rateMod,colorByRate="index")
  
 Say we want to allow for lineage specific rates. Then we can extract and edge table from the allele data object and add a column called edgeGroup to 
 
+```{r}
+egt=getEdgeTable(ad)
+egt[edgeID %in% c("8-4","8-3"),edgeGroup:="e1"]
+egt[!edgeID %in% c("8-4","8-3"),edgeGroup:="e2"]
+rateMod=rateModel(ad,siteLabelCriteria = c("cre.class","go.class"),lineageTable = egt)
+plotTree(rateMod,colorByRate="index")
+```
+
+Then say we want to tie rates between two sets of sites for a specific group of edges.
+
+```{r}
+tieRates(rateMod,siteLabelA = "Enhancer_A",edgeGroupA = "e1",siteLabelB = "Enhancer_B",edgeGroupB = "e1")
+plotTree(obj = rateMod,colorByRate="index")
+```
+
+Then say we want to tie rates between two sets edge groups within a siteLabel
+
+```{r}
+rateMod2=rateModel(ad,siteLabelCriteria = c("cre.class","go.class"),lineageTable = egt)
+tieRates(rateMod2,siteLabelA = "Enhancer_B",edgeGroupA = "e1",siteLabelB = "Enhancer_B",edgeGroupB = "e2")
+plotTree(obj = rateMod2,colorByRate="index")
+```
