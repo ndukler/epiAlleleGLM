@@ -11,7 +11,7 @@ Imports: Rcpp (>= 0.12.17),
          ape,
          data.table,
          ggplot2,
-         cowplot,
+         randomcoloR,
          foreach,
          ggtree
 LinkingTo: Rcpp
