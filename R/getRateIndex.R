@@ -18,7 +18,7 @@ methods::setGeneric("getRateIndex", function(obj,edges,siteLabel,edgeGroup) {
 
 #' @name getRateIndex
 #' @rdname getRateIndex
-methods::setMethod("getRateIndex", signature(obj = "rateModel",edges="data.frame",edgeGroup="missing"), function(obj,edges=NULL,siteLabel,edgeGroup=NULL) {
+methods::setMethod("getRateIndex", signature(obj = "rateModel",edges="data.frame",edgeGroup="missing"), function(obj,edges=NULL,siteLabel,edgeGroup) {
     if(!setequal(colnames(edges),c("parent","child"))){
       stop("Table must contain columns \'parent\' and \'child\'")  
     } 
@@ -28,7 +28,7 @@ methods::setMethod("getRateIndex", signature(obj = "rateModel",edges="data.frame
 
 #' @name getRateIndex
 #' @rdname getRateIndex
-methods::setMethod("getRateIndex", signature(obj = "rateModel",edges="character",edgeGroup="missing"), function(obj,edges=NULL,siteLabel,edgeGroup=NULL) {
+methods::setMethod("getRateIndex", signature(obj = "rateModel",edges="character",edgeGroup="missing"), function(obj,edges,siteLabel,edgeGroup) {
   if(length(siteLabel)>1){
     stop("Only one site label can be specified at a time")
   }
@@ -39,7 +39,7 @@ methods::setMethod("getRateIndex", signature(obj = "rateModel",edges="character"
 
 #' @name getRateIndex
 #' @rdname getRateIndex
-methods::setMethod("getRateIndex", signature(obj = "rateModel",edges="missing",edgeGroup="character"), function(obj,edges=NULL,siteLabel,edgeGroup=NULL) {
+methods::setMethod("getRateIndex", signature(obj = "rateModel",edges="missing",edgeGroup="character"), function(obj,edges,siteLabel,edgeGroup) {
   if(length(siteLabel)>1){
     stop("Only one site label can be specified at a time")
   }
