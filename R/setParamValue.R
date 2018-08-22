@@ -4,6 +4,7 @@
 #' @param obj rateModel object
 #' @param i a numeric vector of indices to set to \'value\' argument
 #' @param value a numeric vector of values to set 
+#' @return A rateModel object with updated parameter values
 #' @name setParamValue
 #' @include rateModel-class.R
 #' @rdname setParamValue
@@ -19,7 +20,7 @@ methods::setMethod("setParamValue", signature(obj = "rateModel"), function(obj,i
     stop("Indices must be numeric")
   }
   if(length(i)!=length(value)){
-    
+    stop("There must be the same number of values as indices")
   }
-  return(obj@paramEnviron$params[i])
+  setValues(obj@params,i,value) ## use rcpp function to update object without causing duplication
 })

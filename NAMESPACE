@@ -2,6 +2,7 @@
 
 export(alleleData)
 export(clone)
+export(getAlleleData)
 export(getEdgeGroupTable)
 export(getEdgeTable)
 export(getLabelIndices)

@@ -16,5 +16,5 @@ methods::setGeneric("getParamIndex", function(obj) {
 #' @name getParamIndex
 #' @rdname getParamIndex
 methods::setMethod("getParamIndex", signature(obj = "rateModel"), function(obj) {
-  return(obj@paramEnviron$paramIndex)
+  return(obj@paramIndex)
 })

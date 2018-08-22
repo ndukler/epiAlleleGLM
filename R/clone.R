@@ -14,12 +14,10 @@ methods::setGeneric("clone", function(object) {
 #' @export
 methods::setMethod("clone", signature(object = "rateModel"), function(object) {
   ## Create deep copy of environment
-  paramEnviron = new.env()
-  paramEnviron$paramIndex=object@paramEnviron$paramIndex
-  paramEnviron$params=object@paramEnviron$params
-  paramEnviron$fixed=object@paramEnviron$fixed
+  adEnviron = new.env()
+  adEnviron$alleleData=getAlleleData(object)
   ## Return copy of object
-  return(methods::new("rateModel",alleleData=object@alleleData,edgeGroups=object@edgeGroups,siteLabelCriteria=object@siteLabelCriteria,
-               siteLabels=object@siteLabels,paramEnviron=paramEnviron))
+  return(methods::new("rateModel",alleleData=adEnviron,edgeGroups=object@edgeGroups,siteLabelCriteria=object@siteLabelCriteria,
+               siteLabels=object@siteLabels,params=object@params,paramIndex=object@paramIndex,fixed=object@fixed))
 })
 

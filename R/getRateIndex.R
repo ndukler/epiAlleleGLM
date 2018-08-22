@@ -33,7 +33,7 @@ methods::setMethod("getRateIndex", signature(obj = "rateModel",edges="character"
     stop("Only one site label can be specified at a time")
   }
   sl=siteLabel
-  ind=obj@paramEnviron$paramIndex[.(getEdgeGroupTable(obj)[edges]$edgeGroup,sl)]$rateIndex
+  ind=getParamIndex(obj)[.(getEdgeGroupTable(obj)[edges]$edgeGroup,sl)]$rateIndex
    return(ind)
 })
 
@@ -45,6 +45,6 @@ methods::setMethod("getRateIndex", signature(obj = "rateModel",edges="missing",e
   }
   sl=siteLabel
   eg=edgeGroup
-  ind=obj@paramEnviron$paramIndex[.(eg,sl)]$rateIndex
+  ind=getParamIndex(obj)[.(eg,sl)]$rateIndex
   return(ind)
 })

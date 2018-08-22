@@ -5,3 +5,7 @@ rcpp_hello_world <- function() {
     .Call('_epiAllele_rcpp_hello_world', PACKAGE = 'epiAllele')
 }
 
+setValues <- function(x, ind, val) {
+    invisible(.Call('_epiAllele_setValues', PACKAGE = 'epiAllele', x, ind, val))
+}
+

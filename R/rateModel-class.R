@@ -12,9 +12,9 @@
 #' @include rateModelValidityCheck.R
 #' @importClassesFrom data.table data.table
 #' @exportClass rateModel
-methods::setClass("rateModel", slots=c(alleleData = "alleleData",edgeGroups="data.table",
+methods::setClass("rateModel", slots=c(alleleData = "environment",edgeGroups="data.table",
                                               siteLabelCriteria="character",siteLabels="data.table",
-                                              paramEnviron="environment"),
+                                              params="numeric",paramIndex="data.table",fixed="logical"),
                   validity = rateModelValidityCheck)
 
 #' rateModel
@@ -82,7 +82,8 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
   
   ## ** Intermediate reformating and computation ** ##
   ## Create environment to hold parameter values and associated indices, etc.
-  paramEnviron=new.env()
+  adEnviron=new.env()
+  adEnviron$alleleData=data
   
   ## Renormalize pi
   pi=pi/sum(pi)
@@ -95,6 +96,7 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
   ## Create labels for each site
   siteLabels=getSiteInfo(data)[,..siteLabelCriteria][,.(siteLabel=do.call(paste, c(.SD, sep = "_")))]
   siteLabels[,siteLabel:=factor(siteLabel)]
+  siteLabels[,index:=1:nrow(siteLabels)]
   data.table::setkey(siteLabels,"siteLabel")
   
   ## Create parameter index
@@ -110,13 +112,10 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
   params[1:max(paramIndex$rateIndex)]=rate
   params[(max(paramIndex$rateIndex)+1):(max(paramIndex$piIndex)+data@nAlleles-1)]=rep(pi,nrow(paramIndex))
   
-  ## Store all relevant parameter info in the environment
-  paramEnviron$paramIndex=paramIndex
-  paramEnviron$params=params
-  paramEnviron$fixed=logical(length(params))
-  paramEnviron$logLikelihood=numeric(1)
+  ## Set fixed vector to default to FALSE
+  fixed=logical(length(params))
   
   ## ** Object construction ** ##
-  methods::new("rateModel",alleleData=data,edgeGroups=lineageTable,siteLabelCriteria=siteLabelCriteria,
-               siteLabels=siteLabels,paramEnviron=paramEnviron)
+  methods::new("rateModel",alleleData=adEnviron,edgeGroups=lineageTable,siteLabelCriteria=siteLabelCriteria,
+               siteLabels=siteLabels,params=params,paramIndex=paramIndex,fixed=fixed)
 }

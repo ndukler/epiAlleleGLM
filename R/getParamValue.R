@@ -19,5 +19,5 @@ methods::setMethod("getParamValue", signature(obj = "rateModel"), function(obj,i
   if(!is.numeric(i)){
     stop("Indices must be numeric")
   }
-  return(obj@paramEnviron$params[i])
+  return(obj@params[i])
 })

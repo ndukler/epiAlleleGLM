@@ -17,5 +17,5 @@ methods::setMethod("getSiteInfo", signature(obj = "alleleData"), function(obj) {
   return(obj@siteInfo)
 })
 methods::setMethod("getSiteInfo", signature(obj = "rateModel"), function(obj) {
-  return(obj@data@siteInfo)
+  return(getSiteInfo(getAlleleData(obj)))
 })
