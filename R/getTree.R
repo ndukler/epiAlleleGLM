@@ -5,6 +5,7 @@
 #' @name getTree
 #' @include alleleData-class.R
 #' @include rateModel-class.R
+#' @return A tree of class \code{phylo}
 #' @rdname getTree
 #' @examples
 #' 
@@ -22,5 +23,5 @@ methods::setMethod("getTree", signature(obj = "alleleData"), function(obj) {
 #' @name getTree
 #' @rdname getTree
 methods::setMethod("getTree", signature(obj = "rateModel"), function(obj) {
-  return(obj@alleleData@tree)
+  return(getTree(getAlleleData(obj)))
 })

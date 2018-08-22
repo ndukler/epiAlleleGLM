@@ -6,6 +6,9 @@
 \arguments{
 \item{obj}{alleleData or rateModel object}
 }
+\value{
+A tree of class \code{phylo}
+}
 \description{
 Returns phylo object
 }
