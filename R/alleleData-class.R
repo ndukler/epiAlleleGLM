@@ -43,11 +43,6 @@ alleleData <- function(data,tree,siteInfo=NULL,logProb = FALSE){
   if(length(unique(unlist(lapply(data, nrow))))!=1){
     stop("Differing numbers of sites for different species in data")
   }
-  ## Make sure tree is unrooted
-  if(ape::is.rooted(tree)){
-    write("Unrooting tree...",stdout())
-    tree=ape::unroot(tree)  
-  } 
   ## Check that siteInfo is a data.frame (or data.table)
   if(!is.null(siteInfo) && !is.data.frame(siteInfo)){
     stop("siteInfo must be a data.frame or a data.table")
@@ -56,6 +51,14 @@ alleleData <- function(data,tree,siteInfo=NULL,logProb = FALSE){
   }
   
   ## **Object construction and associated computations/formatting**
+  ## Make sure tree is unrooted
+  if(ape::is.rooted(tree)){
+    write("Unrooting tree...",stdout())
+    tree=ape::unroot(tree)  
+  } 
+  ## Post-order tree
+  tree=ape::reorder.phylo(tree, "postorder")
+  
   ## Compute number of alleles and species
   nAlleles=ncol(data[[1]])
   nSpecies=length(data)

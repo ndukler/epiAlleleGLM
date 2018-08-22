@@ -28,6 +28,10 @@ alleleDataValidityCheck <- function(object){
   if(ape::is.rooted(object@tree)){
     errors=c(errors,c("Tree must be unrooted."))  
   }
+  ## Check that tree is post-ordered
+  if(any(object@tree$edge != ape::reorder.phylo(object@tree, "postorder")$edge)){
+    errors=c(errors,c("Tree must be sorted in post-order travel order."))  
+  }
   ## Check that there are the same number of rows in the siteInfo data.frame as there are rows in the data
   if (length(errors) == 0) TRUE else errors
 }
