@@ -4,11 +4,13 @@
 #' @param obj rateModel object
 #' @param i a numeric vector of indices to set to \'value\' argument
 #' @param value a numeric vector of values to set 
-#' @return A rateModel object with updated parameter values
+#' @return NULL
 #' @name setParamValue
 #' @include rateModel-class.R
 #' @rdname setParamValue
 #' @examples
+#' 
+#' 
 methods::setGeneric("setParamValue", function(obj,i,value) {
   standardGeneric("setParamValue")
 })

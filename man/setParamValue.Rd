@@ -10,9 +10,10 @@
 
 \item{value}{a numeric vector of values to set}
 }
-\value{
-A rateModel object with updated parameter values
-}
 \description{
 Get parameter values given a set of indices
+}
+\examples{
+
+
 }
