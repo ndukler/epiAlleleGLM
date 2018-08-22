@@ -13,7 +13,8 @@ Imports: Rcpp (>= 0.12.17),
          ggplot2,
          randomcoloR,
          foreach,
-         ggtree
+         ggtree,
+         Matrix
 LinkingTo: Rcpp
 Encoding: UTF-8
 Suggests: testthat,
@@ -24,6 +25,7 @@ Collate:
     'RcppExports.R'
     'alleleDataValidityCheck.R'
     'alleleData-class.R'
+    'branchRateMatrix.R'
     'rateModelValidityCheck.R'
     'rateModel-class.R'
     'clone.R'
