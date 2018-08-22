@@ -27,10 +27,26 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// treeLL
+NumericVector treeLL(const NumericMatrix& data, const NumericMatrix& qConcat, const NumericMatrix& traversal, const double nTips, const NumericVector& logPi);
+RcppExport SEXP _epiAllele_treeLL(SEXP dataSEXP, SEXP qConcatSEXP, SEXP traversalSEXP, SEXP nTipsSEXP, SEXP logPiSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type qConcat(qConcatSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type traversal(traversalSEXP);
+    Rcpp::traits::input_parameter< const double >::type nTips(nTipsSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type logPi(logPiSEXP);
+    rcpp_result_gen = Rcpp::wrap(treeLL(data, qConcat, traversal, nTips, logPi));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_epiAllele_logSumExp", (DL_FUNC) &_epiAllele_logSumExp, 1},
     {"_epiAllele_setValues", (DL_FUNC) &_epiAllele_setValues, 3},
+    {"_epiAllele_treeLL", (DL_FUNC) &_epiAllele_treeLL, 5},
     {NULL, NULL, 0}
 };
 

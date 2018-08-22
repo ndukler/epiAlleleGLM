@@ -15,3 +15,7 @@ setValues <- function(x, ind, val) {
     invisible(.Call('_epiAllele_setValues', PACKAGE = 'epiAllele', x, ind, val))
 }
 
+treeLL <- function(data, qConcat, traversal, nTips, logPi) {
+    .Call('_epiAllele_treeLL', PACKAGE = 'epiAllele', data, qConcat, traversal, nTips, logPi)
+}
+

@@ -4,6 +4,8 @@
 \alias{logLikelihood}
 \title{Compute log-likelihood}
 \arguments{
+\item{x}{a set of parameters to compute the log-likelihood for}
+
 \item{obj}{rateModel object}
 }
 \value{
