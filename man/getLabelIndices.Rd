@@ -6,7 +6,7 @@
 \arguments{
 \item{obj}{a rateModel object}
 
-\item{label}{a label}
+\item{query}{a label}
 }
 \value{
 a numeric vector of indices

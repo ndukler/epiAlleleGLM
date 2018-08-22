@@ -12,8 +12,8 @@ rateModelValidityCheck <- function(object){
   if(!setequal(data.table::key(object@edgeGroups),c("edgeID"))){
     errors=c(errors,"Key of edgeGroups must be \'edgeID\'")
   }
-  if(!setequal(colnames(object@siteLabels),"siteLabel")){
-    errors=c(errors,"object@siteLabels must have only one column, \'siteLabel\'")  
+  if(!setequal(colnames(object@siteLabels),c("siteLabel","index"))){
+    errors=c(errors,"object@siteLabels must have two columns, \'siteLabel\' and \'index\'")  
   }
 
   ## Checks for paramIndex 

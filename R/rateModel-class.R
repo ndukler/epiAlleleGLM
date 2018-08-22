@@ -96,6 +96,7 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
   ## Create labels for each site
   siteLabels=getSiteInfo(data)[,..siteLabelCriteria][,.(siteLabel=do.call(paste, c(.SD, sep = "_")))]
   siteLabels[,siteLabel:=factor(siteLabel)]
+  siteLabels[,index:=1:nrow(siteLabels)]
   data.table::setkey(siteLabels,"siteLabel")
   
   ## Create parameter index
