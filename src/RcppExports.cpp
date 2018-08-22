@@ -5,13 +5,13 @@
 
 using namespace Rcpp;
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _epiAllele_rcpp_hello_world() {
+// logSumExp
+double logSumExp(NumericVector x);
+RcppExport SEXP _epiAllele_logSumExp(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(logSumExp(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -29,7 +29,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_epiAllele_rcpp_hello_world", (DL_FUNC) &_epiAllele_rcpp_hello_world, 0},
+    {"_epiAllele_logSumExp", (DL_FUNC) &_epiAllele_logSumExp, 1},
     {"_epiAllele_setValues", (DL_FUNC) &_epiAllele_setValues, 3},
     {NULL, NULL, 0}
 };
