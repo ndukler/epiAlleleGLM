@@ -97,7 +97,7 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
   siteLabels=getSiteInfo(data)[,..siteLabelCriteria][,.(siteLabel=do.call(paste, c(.SD, sep = "_")))]
   siteLabels[,siteLabel:=factor(siteLabel)]
   siteLabels[,index:=1:nrow(siteLabels)]
-  data.table::setkey(siteLabels,"siteLabel")
+  data.table::setkeyv(siteLabels,c("index","siteLabel"))
   
   ## Create parameter index
   paramIndex=data.table::data.table(expand.grid(edgeGroup=as.character(unique(lineageTable$edgeGroup)),
