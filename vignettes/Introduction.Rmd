@@ -59,14 +59,13 @@ plotTree(rateMod,colorByRate="index")
 Then say we want to tie rates between two sets of sites for a specific group of edges.
 
 ```{r}
-tieRates(rateMod,siteLabelA = "Enhancer_A",edgeGroupA = "e1",siteLabelB = "Enhancer_B",edgeGroupB = "e1")
-plotTree(obj = rateMod,colorByRate="index")
+rateModTied=tieRates(obj=rateMod,siteLabelA = "Enhancer_A",edgeGroupA = "e1",siteLabelB = "Enhancer_B",edgeGroupB = "e1")
+plotTree(obj = rateModTied,colorByRate="index")
 ```
 
 Then say we want to tie rates between two sets edge groups within a siteLabel
 
 ```{r}
-rateMod2=rateModel(ad,siteLabelCriteria = c("cre.class","go.class"),lineageTable = egt)
-tieRates(rateMod2,siteLabelA = "Enhancer_B",edgeGroupA = "e1",siteLabelB = "Enhancer_B",edgeGroupB = "e2")
-plotTree(obj = rateMod2,colorByRate="index")
+rateModelTied2=tieRates(rateMod,siteLabelA = "Enhancer_B",edgeGroupA = "e1",siteLabelB = "Enhancer_B",edgeGroupB = "e2")
+plotTree(obj = rateModelTied2,colorByRate="index")
 ```

@@ -23,7 +23,7 @@ rateModelValidityCheck <- function(object){
     errors=c(errors,"object@paramIndex must have keys \'edgeGroup\', \'siteLabel\'")
   }
   ## Check for the params
-  expLen= max(object@paramIndex$piIndex)+object@alleleData$alleleData@nAlleles-1 ## expected length of parameter vec
+  expLen=max(getParamIndex(object)$piIndex)+getAlleleData(object)@nAlleles-1 ## expected length of parameter vec
   if(!is.numeric(object@params) || length(object@params) != expLen){
     errors=c(errors,paste("object@params must be a numeric vector of length",expLen)) 
   }
