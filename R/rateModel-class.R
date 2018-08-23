@@ -37,9 +37,7 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
     stop("data must be of class alleleData")
   }
   ## Check that all siteLabelCriteria elements are columns in alleleData@siteInfo
-  if(is.null(siteLabelCriteria)){
-    siteLabels=factor(rep("1",nrow(data@data)))
-  } else if(!all(siteLabelCriteria %in% colnames(data@siteInfo))){
+  if(!is.null(siteLabelCriteria) && !all(siteLabelCriteria %in% colnames(data@siteInfo))){
     diff=setdiff(siteLabelCriteria,colnames(data@siteInfo))
     diff=paste0("\'",diff,"\'")
     stop(paste("Labels",diff,"are not columns in data@siteInfo",collapse = ", "))
@@ -93,10 +91,15 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
   data.table::setcolorder(lineageTable,c("parent","child","edgeID","edgeGroup"))
   data.table::setkeyv(x = lineageTable,cols = c("edgeID"))
   
-  ## Create labels for each site
-  siteLabels=getSiteInfo(data)[,..siteLabelCriteria][,.(siteLabel=do.call(paste, c(.SD, sep = "_")))]
-  siteLabels[,siteLabel:=factor(siteLabel)]
-  siteLabels[,index:=1:nrow(siteLabels)]
+  ## Create labels for each site  if(){
+  if(is.null(siteLabelCriteria)){
+    siteLabels=data.table::data.table(siteLabel=factor(rep("All",nrow(data@data))),index=1:nrow(data@data))
+    siteLabelCriteria=character(0)
+  } else {
+    siteLabels=getSiteInfo(data)[,..siteLabelCriteria][,.(siteLabel=do.call(paste, c(.SD, sep = "_")))]
+    siteLabels[,siteLabel:=factor(siteLabel)]
+    siteLabels[,index:=1:nrow(siteLabels)]
+  }
   data.table::setkeyv(siteLabels,c("index","siteLabel"))
   
   ## Create parameter index
