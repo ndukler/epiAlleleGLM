@@ -19,14 +19,14 @@ branchRateMatrix <- function(rate,branch.length,pi,log=TRUE){
   diag(Q)=-rowSums(Q)
   ## Standardize rate matrix
   norm=1/sum(-diag(Q)*pi)
-  qN=Q/norm
+  qN=Q*norm
   ## Compute per branch scaling factor
   sf = rate * branch.length
   ## Exponentiate rate matrix to transition matrix
   if(log==TRUE){
-    qList=lapply(as.list(sf),function(x) log(as.matrix(Matrix::expm(Q*x))))
+    qList=lapply(as.list(sf),function(x) log(as.matrix(Matrix::expm(qN*x))))
   } else {
-    qList=lapply(as.list(sf),function(x) as.matrix(Matrix::expm(Q*x)))
+    qList=lapply(as.list(sf),function(x) as.matrix(Matrix::expm(qN*x)))
   }
   return(qList)
 }
