@@ -1,9 +1,10 @@
 #include <Rcpp.h>
 #include "logSumExp.h"
+#include "epiAllele_types.h"
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-NumericVector treeLL(const NumericMatrix& data, const NumericMatrix& qConcat, const NumericMatrix& traversal, const double nTips, 
+NumericVector treeLL(const NumericMatrix& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, 
                      const NumericVector& logPi) {
   int sites=data.nrow();
   int nAlleles=logPi.size();
@@ -20,13 +21,13 @@ NumericVector treeLL(const NumericMatrix& data, const NumericMatrix& qConcat, co
         nodeLogProb(n,a)=data(i,(n*nAlleles)+a);
       }
     }
+    // Rcout << nodeLogProb << std::endl;
     // Now compute the probability for the interior nodes
     for(int n=0;n<traversal.nrow();n++){
       int parentInd=traversal(n,0);
       int childInd=traversal(n,1);
-      int qRow=n*nAlleles; // The starting row for the edge
       for(int a=0;a<nAlleles;a++){ // iterate over all parental alleles
-        nodeLogProb(parentInd,a) = nodeLogProb(parentInd,a) + logSumExp(nodeLogProb(childInd,_)+qConcat(qRow+a,_));
+        nodeLogProb(parentInd,a) = nodeLogProb(parentInd,a) + logSumExp(nodeLogProb(childInd,_)+tMat[n](a,_));
       }
     }
     siteLik(i)=logSumExp(nodeLogProb(root,_)+logPi);
