@@ -24,15 +24,15 @@ methods::setMethod("logLikelihood", signature(x="missing",obj = "rateModel"), fu
   # l = siteTypes[1]
   siteGroupLik=foreach::foreach(l=siteTypes) %dopar% {
     ## Extract subset of data for site
-    data=getAlleleData(obj)@data[getLabelIndices(obj,l),]
+    data=getAlleleData(obj)@data[getLabelIndices(obj,l),,drop=FALSE]
     ## Create traversal table and rates
     tt=data.table::data.table(getTree(obj)$edge)
     data.table::setnames(x = tt,old=colnames(tt),c("parent","child"))
     rates=getParams(obj)[getRateIndex(obj,edges = tt,siteLabel = l)]
     pi=getParams(obj)[getPiIndex(obj,siteLabel = l)]
     ## Compute transition matricies
-    logTransMatConcat=do.call("rbind",epiAllele:::branchRateMatrix(rates,getTree(obj)$edge.length,pi = pi))
-    siteLik=treeLL(data=data,qConcat=logTransMatConcat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi))
+    logTransMat=epiAllele:::branchRateMatrix(rate = rates,branch.length =  getTree(obj)$edge.length,pi = pi)
+    siteLik=treeLL(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi))
     return(sum(siteLik))
   }
   return(sum(unlist(siteGroupLik)))
