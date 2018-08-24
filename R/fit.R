@@ -20,9 +20,13 @@ methods::setMethod("fit", signature(obj = "rateModel"), function(obj,scale=NULL)
   }
   pI=getParamIndex(obj)
   x=getParams(obj)
+  rateEnd=max(pI$rateIndex)
+  ## Convert parameters to stick breaking parameterization
+  y=c(x[1:rateEnd],epiAllele:::multiProbToStick(x[(rateEnd+1):length(x)],getAlleleData(obj)@nAlleles))
   ## Set default box constraints, between 0 and 1
-  ub=c(rep(Inf,max(pI$rateIndex)),rep(1,length(x)-max(pI$rateIndex)))
-  lb=numeric(length(x))
+  ub=c(rep(Inf,rateEnd),rep(1,length(y)-rateEnd))
+  lb=numeric(length(y))
+  ## NEED TO FIX SO THAT RATE PARAMETERS CAN BE FIXED INDIVIDUALLY BUT PI IS ALL OR NOTHING PER SITE!!!!!
   ## Where the parameter values are fixed, set lb=ub=value
   ub[obj@fixed]=x[obj@fixed]
   lb[obj@fixed]=x[obj@fixed]
