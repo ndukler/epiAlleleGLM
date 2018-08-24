@@ -1,0 +1,45 @@
+---
+title: "epiAllele performance on simulated data"
+author: "Noah Dukler"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The model converges on simulated data
+
+```{r}
+library(epiAllele)
+library(ape)
+
+### simple two-state model:
+tr <- unroot(rtree(n = 10, br = runif))
+pi=c(1,1)
+pi=pi/sum(pi)
+rate=0.1
+normRate=rate*1/(2*prod(pi))
+k=2
+nSites=5000
+nAlleles=length(pi)
+
+simDat=matrix(nrow = nSites,ncol=length(tr$tip.label))
+colnames(simDat)=tr$tip.label
+for(i in 1:nSites){
+  simDat[i,] <- rTraitDisc(tr,rate=normRate,k = k,freq=pi,ancestor = FALSE,root.value = sample(x=1:k,size = 1,prob = pi))
+}
+aData=lapply(split(t(simDat), f =colnames(simDat)),function(x){
+  z=matrix(0,nrow = length(x),ncol=nAlleles)
+  for(k in 1:nrow(z)){z[k,x[k]]=1}
+  return(z)
+})
+
+ad=alleleData(data=aData,tree=tr)
+rateMod=rateModel(ad,rate = 0.3,pi = c(0.5,0.5))
+fittedMod=fit(obj = rateMod)
+fittedMod$model
+
+```
+
