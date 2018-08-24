@@ -6,7 +6,8 @@
 #' @param rate a vector, either of length one, or the same as the number of branches
 #' @param pi stationary distribution of allele frequencies
 #' @name simData
-#' @return a list 
+#' @return a list
+#' @export 
 simData <- function(nSites,tr,rate,pi){
   ## Unroot tree if it's rooted
   if(ape::is.rooted(tr)){
@@ -36,7 +37,7 @@ simData <- function(nSites,tr,rate,pi){
   simDat=matrix(nrow = nSites,ncol=length(tr$tip.label))
   colnames(simDat)=tr$tip.label
   for(i in 1:nSites){
-    simDat[i,] <- ape::rTraitDisc(tr,rate=1,k = k,freq=pi,ancestor = FALSE,root.value = sample(x=1:k,size = 1,prob = pi))
+    simDat[i,] <- ape::rTraitDisc(phy = trRescale,rate=1,k = k,freq=pi,ancestor = FALSE,root.value = sample(x=1:k,size = 1,prob = pi))
   }
   aData=lapply(split(t(simDat), f =colnames(simDat)),function(x){
     z=matrix(0,nrow = length(x),ncol=nAlleles)
@@ -48,5 +49,5 @@ simData <- function(nSites,tr,rate,pi){
                          edgeGroup=paste0("e",as.numeric(factor(rate))))
   ## Map of edge groups to rates
   rateMap=unique(data.table::data.table(edgeGroup=paste0("e",as.numeric(factor(rate))),rate))
-  return(list(tr=tree,edgeTable=eTab,rateMap=rateMap,pi=pi))
+  return(list(data=aData,tr=tree,edgeTable=eTab,rateMap=rateMap,pi=pi))
 }
