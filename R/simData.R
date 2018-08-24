@@ -37,7 +37,8 @@ simData <- function(nSites,tr,rate,pi){
   simDat=matrix(nrow = nSites,ncol=length(tr$tip.label))
   colnames(simDat)=tr$tip.label
   for(i in 1:nSites){
-    simDat[i,] <- ape::rTraitDisc(phy = trRescale,rate=1,k = k,freq=pi,ancestor = FALSE,root.value = sample(x=1:k,size = 1,prob = pi))
+    simDat[i,] <- ape::rTraitDisc(phy = trRescale,rate=1,k = length(pi),freq=pi,ancestor = FALSE,
+                                  root.value = sample(x=1:length(pi),size = 1,prob = pi))
   }
   aData=lapply(split(t(simDat), f =colnames(simDat)),function(x){
     z=matrix(0,nrow = length(x),ncol=nAlleles)
