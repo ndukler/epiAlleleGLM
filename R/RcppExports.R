@@ -11,8 +11,50 @@ logSumExp <- function(x) {
     .Call('_epiAllele_logSumExp', PACKAGE = 'epiAllele', x)
 }
 
+#' multiProbToStick 
+#'
+#' Convert a multiple sets of stick breaking parameters to a set of probabilities that sum to one
+#' @param x the parameter of stick breaking parameters
+#' @param width the width of the stick breakink process
+#' @name multiProbToStick
+#' @return a vector of probabilities that sum to one
+multiProbToStick <- function(x, width) {
+    .Call('_epiAllele_multiProbToStick', PACKAGE = 'epiAllele', x, width)
+}
+
+#' multiStickToProb 
+#'
+#' Convert a multiple sets of stick breaking parameters to a set of probabilities that sum to one
+#' @param x the parameter of stick breaking parameters
+#' @param width the width of the stick breakink process
+#' @name multiStickToProb
+#' @return a vector of probabilities that sum to one
+multiStickToProb <- function(x, width) {
+    .Call('_epiAllele_multiStickToProb', PACKAGE = 'epiAllele', x, width)
+}
+
+#' probToStick 
+#'
+#' Convert a set of probabilities that sum to one to a set of stick breaking parameters
+#' @param x parameter vector of probabilities
+#' @name probToStick
+#' @return a vector of parameters for a stick breaking parameters
+probToStick <- function(x) {
+    .Call('_epiAllele_probToStick', PACKAGE = 'epiAllele', x)
+}
+
 setValues <- function(x, ind, val) {
     invisible(.Call('_epiAllele_setValues', PACKAGE = 'epiAllele', x, ind, val))
+}
+
+#' stickToProb 
+#'
+#' Convert a set of stick breaking parameters to a set of probabilities that sum to one
+#' @param x parameter vector of stick breaking process parameters
+#' @name stickToProb
+#' @return a vector of probabilities that sum to one
+stickToProb <- function(x) {
+    .Call('_epiAllele_stickToProb', PACKAGE = 'epiAllele', x)
 }
 
 treeLL <- function(data, tMat, traversal, nTips, logPi) {
