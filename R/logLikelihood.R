@@ -15,8 +15,6 @@ methods::setGeneric("logLikelihood", function(x,obj,...) {
   standardGeneric("logLikelihood")
 })
 
-# obj=rateMod
-
 #' @name logLikelihood
 #' @rdname logLikelihood
 methods::setMethod("logLikelihood", signature(x="missing",obj = "rateModel"), function(x,obj) {
@@ -62,7 +60,7 @@ methods::setMethod("logLikelihood", signature(x="numeric",obj = "rateModel"), fu
     }
   }
   ## Set parameter values without object duplication
-  epiAllele:::setParamValue(obj=obj,i = 1:length(y),val = y)
+  setParamValue(obj=obj,i = 1:length(y),val = y)
   ## Pass on to logLikelihood method that doesn't specify parameters
   return(logLikelihood(obj=obj))
 })
