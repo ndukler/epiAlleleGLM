@@ -1,4 +1,4 @@
-methods::setGeneric("fit", function(obj,scale) {
+methods::setGeneric("fit", function(obj,scale=NULL) {
   standardGeneric("fit")
 })
 
@@ -30,10 +30,11 @@ methods::setMethod("fit", signature(obj = "rateModel"), function(obj,scale=NULL)
   ## Where the parameter values are fixed, set lb=ub=value
   ## ub[obj@fixed]=x[obj@fixed]
   ## lb[obj@fixed]=x[obj@fixed]
-  optMod=optim(y,fn = logLikelihood,obj=obj,stickParams=TRUE,lower = lb,upper = ub,method="L-BFGS-B",
+  obj2=clone(obj)
+  optMod=optim(y,fn = logLikelihood,obj=obj2,stickParams=TRUE,lower = lb,upper = ub,method="L-BFGS-B",
                control = list(fnscale=sca))
   probs=multiStickToProb(optMod$par[(rateEnd+1):length(optMod$par)],width=getAlleleData(obj)@nAlleles-1)
-  setParamValue(obj,i = 1:length(obj@params),value = c(optMod$par[1:rateEnd],probs))
-  return(with(optMod,list(model=obj,value=value,counts=counts,convergence=convergence,message=message)))
+  setParamValue(obj2,i = 1:length(obj@params),value = c(optMod$par[1:rateEnd],probs))
+  return(with(optMod,list(model=obj2,value=value,counts=counts,convergence=convergence,message=message)))
 })
 

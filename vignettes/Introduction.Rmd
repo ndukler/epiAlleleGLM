@@ -44,6 +44,11 @@ Note that the model assumes that all different genomic regions have different ra
 ```{r}
 plotTree(obj = rateMod,colorByRate="index")
 ```
+Now we can fit the model and plot the tree with values
+```{r}
+fittedModel=fit(rateMod)
+plotTree(obj = fittedModel$model,colorByRate="value")
+```
 
  
 Say we want to allow for lineage specific rates. Then we can extract and edge table from the allele data object and add a column called edgeGroup to 
