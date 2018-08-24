@@ -9,37 +9,39 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The model converges on simulated data
-
+In order to simulate data we must first create a tree. Note that the tree is unrooted.
 ```{r}
 library(epiAllele)
 library(ape)
 
-### simple two-state model:
+set.seed(123)
+### Create a tree
 tr <- unroot(rtree(n = 10, br = runif))
-pi=c(1,1)
-pi=pi/sum(pi)
-rate=0.1
-normRate=rate*1/(2*prod(pi))
-k=2
-nSites=5000
-nAlleles=length(pi)
+plot(tr)
+nodelabels()
+tiplabels()
+```
 
-simDat=matrix(nrow = nSites,ncol=length(tr$tip.label))
-colnames(simDat)=tr$tip.label
-for(i in 1:nSites){
-  simDat[i,] <- rTraitDisc(tr,rate=normRate,k = k,freq=pi,ancestor = FALSE,root.value = sample(x=1:k,size = 1,prob = pi))
-}
-aData=lapply(split(t(simDat), f =colnames(simDat)),function(x){
-  z=matrix(0,nrow = length(x),ncol=nAlleles)
-  for(k in 1:nrow(z)){z[k,x[k]]=1}
-  return(z)
-})
+Say we want to simulate data where all edges below node 16 have rate 3 and all above have rate 1. To do so we construct a vector of rates with a one-to-one mapping to tree edges. We can then simulate data with the simData function whcih returns a list containing the tree, data, the stationary character distribution, an edge table, and a table that maps edgeGroups to rates.
 
-ad=alleleData(data=aData,tree=tr)
-rateMod=rateModel(ad,rate = 0.3,pi = c(0.5,0.5))
-fittedMod=fit(obj = rateMod)
-fittedMod$model
+```{r}
+rates=rep(1,length(tr$edge.length))
+rates[tr$edge[,2] %in% c(7:10,17:18)]=3
+twoRateData=simData(nSites = 1000,tr=tr,rate = rates,pi = c(0.3,0.7))
+```
 
+Now we can place the data in an alleleData object and then a rateModel. We can check that the rate assignments are correct by plotting the rate model object.
+
+```{r}
+ad=alleleData(data = twoRateData$data,tree = tr)
+twoRateMod=rateModel(ad,lineageTable = twoRateData$edgeTable)
+plotTree(twoRateMod)
+```
+ 
+Now lets fit the model.
+
+```{r}
+fittedTRM=fit(twoRateMod)
+plot(fittedTRM,"value")
 ```
 
