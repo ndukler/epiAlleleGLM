@@ -16,6 +16,41 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// multiProbToStick
+NumericVector multiProbToStick(const NumericVector& x, int width);
+RcppExport SEXP _epiAllele_multiProbToStick(SEXP xSEXP, SEXP widthSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type width(widthSEXP);
+    rcpp_result_gen = Rcpp::wrap(multiProbToStick(x, width));
+    return rcpp_result_gen;
+END_RCPP
+}
+// multiStickToProb
+NumericVector multiStickToProb(const NumericVector& x, int width);
+RcppExport SEXP _epiAllele_multiStickToProb(SEXP xSEXP, SEXP widthSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type width(widthSEXP);
+    rcpp_result_gen = Rcpp::wrap(multiStickToProb(x, width));
+    return rcpp_result_gen;
+END_RCPP
+}
+// probToStick
+NumericVector probToStick(NumericVector x);
+RcppExport SEXP _epiAllele_probToStick(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(probToStick(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // setValues
 void setValues(NumericVector& x, NumericVector& ind, NumericVector& val);
 RcppExport SEXP _epiAllele_setValues(SEXP xSEXP, SEXP indSEXP, SEXP valSEXP) {
@@ -26,6 +61,17 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector& >::type val(valSEXP);
     setValues(x, ind, val);
     return R_NilValue;
+END_RCPP
+}
+// stickToProb
+NumericVector stickToProb(NumericVector x);
+RcppExport SEXP _epiAllele_stickToProb(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(stickToProb(x));
+    return rcpp_result_gen;
 END_RCPP
 }
 // treeLL
@@ -46,7 +92,11 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_epiAllele_logSumExp", (DL_FUNC) &_epiAllele_logSumExp, 1},
+    {"_epiAllele_multiProbToStick", (DL_FUNC) &_epiAllele_multiProbToStick, 2},
+    {"_epiAllele_multiStickToProb", (DL_FUNC) &_epiAllele_multiStickToProb, 2},
+    {"_epiAllele_probToStick", (DL_FUNC) &_epiAllele_probToStick, 1},
     {"_epiAllele_setValues", (DL_FUNC) &_epiAllele_setValues, 3},
+    {"_epiAllele_stickToProb", (DL_FUNC) &_epiAllele_stickToProb, 1},
     {"_epiAllele_treeLL", (DL_FUNC) &_epiAllele_treeLL, 5},
     {NULL, NULL, 0}
 };
