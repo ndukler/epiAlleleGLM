@@ -47,5 +47,6 @@ Collate:
     'plotTree.R'
     'scaledLL.R'
     'setParamValue.R'
+    'simData.R'
     'tieRates.R'
 VignetteBuilder: knitr
