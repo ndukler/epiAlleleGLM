@@ -3,6 +3,7 @@
 #' Compute log-likelihood for given rate model object
 #' @param x a set of parameters to compute the log-likelihood for
 #' @param obj rateModel object
+#' @param stickParams
 #' @return A rateModel object with updated parameter values
 #' @name logLikelihood
 #' @include rateModel-class.R
@@ -10,7 +11,7 @@
 #' @examples
 #' 
 #' @export
-methods::setGeneric("logLikelihood", function(x,obj) {
+methods::setGeneric("logLikelihood", function(x,obj,...) {
   standardGeneric("logLikelihood")
 })
 
@@ -40,12 +41,27 @@ methods::setMethod("logLikelihood", signature(x="missing",obj = "rateModel"), fu
 
 #' @name logLikelihood
 #' @rdname logLikelihood
-methods::setMethod("logLikelihood", signature(x="numeric",obj = "rateModel"), function(x,obj) {
-  if(length(x) != length(getParams(obj))){
-    stop("Length of x must be equal to the number of parameters in the model.")
+methods::setMethod("logLikelihood", signature(x="numeric",obj = "rateModel"), function(x,obj,stickParams=TRUE) {
+  if(!stickParams){
+    if(length(x) != length(getParams(obj))){
+      stop("Length of x must be equal to the number of parameters in the model if stickParams is not TRUE.")
+    }
+    y=x
+  } else{
+    xPiLen=length(x)-max(getParamIndex(obj)$rateIndex)
+    expPiLen = length(levels(obj@siteLabels$siteLabel))*(getAlleleData(obj)@nAlleles-1)
+    ## Check that the vector of stick breaking parameters are of the right length and 
+    ## if so, convert them to probabilities
+    if(xPiLen==expPiLen){
+      probPi=epiAllele:::multiStickToProb(x[(max(getParamIndex(obj)$rateIndex)+1):length(x)],
+                                          getAlleleData(obj)@nAlleles-1)
+      y=c(x[1:max(getParamIndex(obj)$rateIndex)],probPi)
+    } else{
+      stop("Incorrect number of parameters for stick breaking process sent to logLikelihood function")
+    }
   }
   ## Set parameter values without object duplication
-  setValues(x,1:length(x),obj)
+  setValues(y,1:length(x),obj)
   ## Pass on to logLikelihood method that doesn't specify parameters
   logLikelihood(obj)
 })
