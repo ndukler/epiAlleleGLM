@@ -9,7 +9,7 @@
 \item{scale}{a scale factor to apply to log-likelihood, defaults to -1/nsites}
 }
 \value{
-rateModel object
+a list incuding a rateModel object and information about the optimization
 }
 \description{
 Fits rate model object and returns fitted model
