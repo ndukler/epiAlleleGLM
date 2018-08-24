@@ -24,7 +24,7 @@ methods::setMethod("fit", signature(obj = "rateModel"), function(obj,scale=NULL)
   ## Convert parameters to stick breaking parameterization
   y=c(x[1:rateEnd],multiProbToStick(x[(rateEnd+1):length(x)],getAlleleData(obj)@nAlleles))
   ## Set default box constraints, between 0 and 1
-  ub=c(rep(Inf,rateEnd),rep(1,length(y)-rateEnd))
+  ub=c(rep(Inf,rateEnd),rep(0.99999,length(y)-rateEnd))
   lb=c(rep(10^-8,rateEnd),rep(0.001,length(y)-rateEnd))
   ## NEED TO FIX SO THAT RATE PARAMETERS CAN BE FIXED INDIVIDUALLY BUT PI IS ALL OR NOTHING PER SITE!!!!!
   ## Where the parameter values are fixed, set lb=ub=value

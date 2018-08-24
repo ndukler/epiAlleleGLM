@@ -15,8 +15,8 @@ methods::setGeneric("scaledLL", function(x,obj,scale,...) {
 #' @name scaledLL
 #' @rdname scaledLL
 methods::setMethod("scaledLL", signature(x="missing",obj = "rateModel"), function(x,obj,scale) {
-  ll=logLikelihood(x = x,obj = obj)
-  return(ll*scale)
+  ll=logLikelihood(obj = obj)
+  return(ll)
 })
 
 #' @name scaledLL
