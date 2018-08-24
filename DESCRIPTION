@@ -45,6 +45,7 @@ Collate:
     'logLikelihood.R'
     'package.R'
     'plotTree.R'
+    'scaledLL.R'
     'setParamValue.R'
     'tieRates.R'
 VignetteBuilder: knitr
