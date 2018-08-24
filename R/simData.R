@@ -50,5 +50,5 @@ simData <- function(nSites,tr,rate,pi){
                          edgeGroup=paste0("e",as.numeric(factor(rate))))
   ## Map of edge groups to rates
   rateMap=unique(data.table::data.table(edgeGroup=paste0("e",as.numeric(factor(rate))),rate))
-  return(list(data=aData,tr=tree,edgeTable=eTab,rateMap=rateMap,pi=pi))
+  return(list(data=aData,tr=tr,edgeTable=eTab,rateMap=rateMap,pi=pi))
 }
