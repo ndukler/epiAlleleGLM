@@ -14,6 +14,9 @@
 
 \item{edgeGroupB}{edge group for rate B}
 }
+\value{
+A semi-deep copy of the rateModel object with tied parameters (points to same environment that held the data)
+}
 \description{
 Sets the rate of the set of branches specified by edgeGroupB and siteLabelB equal to that of A
 }
