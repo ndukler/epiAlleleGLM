@@ -15,9 +15,9 @@ logAData=lapply(aData,log)
 names(logAData)=species
 
 ## Create test trees, both one that will fail, and one that will pass
-passTree=ape::rtree(n = length(species),tip.label = species)
-failTree1=ape::rtree(n = length(species),tip.label = c("A","B","C"))
-failTree2=ape::rtree(n = length(species)+1,tip.label = c(species,"D"))
+passTree=ape::unroot(ape::rtree(n = length(species),tip.label = species))
+failTree1=ape::unroot(ape::rtree(n = length(species),tip.label = c("A","B","C")))
+failTree2=ape::unroot(ape::rtree(n = length(species)+1,tip.label = c(species,"D")))
 
 ## Test that object is created correctly when not given site info
 testthat::test_that("alleleData builds correctly without site info",{
