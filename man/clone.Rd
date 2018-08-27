@@ -5,6 +5,8 @@
 \title{Copy object}
 \arguments{
 \item{object}{rateModel}
+
+\item{deep}{Logical value as to whether to make a deep copy of the data (default = TRUE)}
 }
 \value{
 rateModel object
