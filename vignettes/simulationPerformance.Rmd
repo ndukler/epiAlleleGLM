@@ -27,7 +27,7 @@ Say we want to simulate data where all edges below node 16 have rate 3 and all a
 ```{r}
 rates=rep(0.1,length(tr$edge.length))
 rates[tr$edge[,2] %in% c(7:10,17:18)]=0.3
-twoRateData=simData(nSites = 1000,tr=tr,rate = rates,pi = c(0.3,0.7))
+twoRateData=simData(nSites = 100,tr=tr,rate = rates,pi = c(0.3,0.7))
 ```
 
 Now we can place the data in an alleleData object and then a rateModel. We can check that the rate assignments are correct by plotting the rate model object.
@@ -44,3 +44,20 @@ Now lets fit the model.
 fittedTRM=fit(twoRateMod)
 plotTree(fittedTRM$model,"value")
 ```
+
+If this was real data, we might be interested as to whether we really need two rates of turnover to model the observed site patterns. In that case we would construct and fit a null model by copying our two rate model and tying the rates on the two subtrees as follows:
+
+```{r}
+  singleRateModel=tieRates(obj = twoRateMod,siteLabelA = "All",edgeGroupA = "e1",siteLabelB = "All",edgeGroupB = "e2")
+  plotTree(singleRateModel)
+```
+
+As we can see above, all edges of the tree now point to a single rate. Now we fit our single rate model and compare to our two rate model using either a likelihood ratio test (LRT) for nested models, or the bayesian information criterion (BIC) for non-nested (or nested) models.
+
+```{r}
+fittedSRM=fit(singleRateModel)
+deltaBIC=bic(fittedSRM$model)-bic(fittedTRM$model)
+print(deltaBIC) ## Bigger BIC values support rejecting the null model
+lrt(h0=fittedSRM$model,hA=fittedTRM$model) ## Smaller p-values support rejecting the null model
+```
+
