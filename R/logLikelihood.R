@@ -21,7 +21,8 @@ methods::setMethod("logLikelihood", signature(x="missing",obj = "rateModel"), fu
   siteTypes=levels(obj@siteLabels$siteLabel)
   nTips=length(getTree(obj)$tip.label)
   # l = siteTypes[1]
-  siteGroupLik=foreach::foreach(l=siteTypes) %dopar% {
+  `%myPar%` <- ifelse(foreach::getDoParRegistered(), yes = foreach::`%dopar%`, no = foreach::`%do%`)
+  siteGroupLik=foreach::foreach(l=siteTypes) %myPar% {
     ## Extract subset of data for site
     data=getAlleleData(obj)@data[getLabelIndices(obj,l),,drop=FALSE]
     ## Create traversal table and rates
