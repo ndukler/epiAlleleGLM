@@ -53,7 +53,7 @@ alleleData <- function(data,tree,siteInfo=NULL,logProb = FALSE){
   ## **Object construction and associated computations/formatting**
   ## Make sure tree is unrooted
   if(ape::is.rooted(tree)){
-    write("Unrooting tree...",stdout())
+    print("Unrooting tree...")
     tree=ape::unroot(tree)  
   } 
   ## Post-order tree
