@@ -45,6 +45,7 @@ Collate:
     'getSiteInfo.R'
     'getTree.R'
     'logLikelihood.R'
+    'lrt.R'
     'nSites.R'
     'package.R'
     'plotTree.R'
