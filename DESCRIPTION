@@ -29,6 +29,7 @@ Collate:
     'rateModelValidityCheck.R'
     'rateModel-class.R'
     'clone.R'
+    'disCharToProb.R'
     'fit.R'
     'getAlleleData.R'
     'getEdgeGroupTable.R'
