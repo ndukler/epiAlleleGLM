@@ -10,6 +10,7 @@ methods::setGeneric("tieRates", function(obj,siteLabelA,edgeGroupA,siteLabelB,ed
 #' @param edgeGroupA edge group for rate A
 #' @param siteLabelB site label for rate B
 #' @param edgeGroupB edge group for rate B
+#' @return A semi-deep copy of the rateModel object with tied parameters (points to same environment that held the data)
 #' @name tieRates
 #' @include rateModel-class.R
 #' @examples
