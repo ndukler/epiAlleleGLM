@@ -1,4 +1,4 @@
-context("alleleData")
+testthat::context("alleleData")
 
 set.seed(123)
 
