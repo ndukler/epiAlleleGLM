@@ -7,7 +7,7 @@
 \item{obj}{alleleData or rateModel object}
 }
 \value{
-data.table containing site info
+number of sites in data
 }
 \description{
 Extracts site information table
