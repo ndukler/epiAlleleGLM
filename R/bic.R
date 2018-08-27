@@ -1,6 +1,6 @@
 #' Compute BIC for rate models
 #'
-#' Computes the bayesoan information criterion (BIC) for a given rateModel.
+#' Computes the bayesian information criterion (BIC) for a given rateModel.
 #' Note that when comparing two models, the one with the smaller BIC is preferred. 
 #' @param obj rateModel object
 #' @name bic
