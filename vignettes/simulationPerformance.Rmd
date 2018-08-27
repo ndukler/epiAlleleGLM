@@ -27,7 +27,7 @@ Say we want to simulate data where all edges below node 16 have rate 3 and all a
 ```{r}
 rates=rep(0.1,length(tr$edge.length))
 rates[tr$edge[,2] %in% c(7:10,17:18)]=0.3
-twoRateData=simData(nSites = 5000,tr=tr,rate = rates,pi = c(0.3,0.7))
+twoRateData=simData(nSites = 1000,tr=tr,rate = rates,pi = c(0.3,0.7))
 ```
 
 Now we can place the data in an alleleData object and then a rateModel. We can check that the rate assignments are correct by plotting the rate model object.
@@ -44,4 +44,3 @@ Now lets fit the model.
 fittedTRM=fit(twoRateMod)
 plotTree(fittedTRM$model,"value")
 ```
-
