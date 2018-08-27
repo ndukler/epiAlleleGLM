@@ -10,7 +10,7 @@
 #' @include alleleDataValidityCheck.R
 #' @importClassesFrom data.table data.table
 #' @exportClass alleleData
-methods::setClass("alleleData", slots=c(data = "matrix", tree = "ANY", siteInfo="data.table",nAlleles="numeric",nSpecies="numeric"),
+methods::setClass("alleleData", slots=c(data = "matrix", tree = "ANY", siteInfo="data.table",nAlleles="numeric",nSpecies="numeric",nSites="numeric"),
                   validity = alleleDataValidityCheck)
 
 #' alleleData
@@ -74,5 +74,8 @@ alleleData <- function(data,tree,siteInfo=NULL,logProb = FALSE){
   if(!logProb){
     dataMatrix=log(dataMatrix)
   }
-  methods::new("alleleData",data=dataMatrix,tree=tree,siteInfo=data.table::as.data.table(siteInfo),nSpecies=nSpecies,nAlleles=nAlleles)
+  ## Get nSites
+  nSites=nrow(dataMatrix)
+  methods::new("alleleData",data=dataMatrix,tree=tree,siteInfo=data.table::as.data.table(siteInfo),nSpecies=nSpecies,
+               nAlleles=nAlleles,nSites=nSites)
 }

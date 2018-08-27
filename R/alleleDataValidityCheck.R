@@ -32,6 +32,10 @@ alleleDataValidityCheck <- function(object){
   if(any(object@tree$edge != ape::reorder.phylo(object@tree, "postorder")$edge)){
     errors=c(errors,c("Tree must be sorted in post-order travel order."))  
   }
+  ## Check that the number of sites are correct
+  if(nrow(object@data)!=object@nSites){
+    errors=c(errors,c("Incorrect number of sites"))  
+  }
   ## Check that there are the same number of rows in the siteInfo data.frame as there are rows in the data
   if (length(errors) == 0) TRUE else errors
 }
