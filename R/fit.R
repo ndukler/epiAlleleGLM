@@ -30,7 +30,7 @@ methods::setMethod("fit", signature(obj = "rateModel"), function(obj,scale=NULL)
   ## Where the parameter values are fixed, set lb=ub=value
   ## ub[obj@fixed]=x[obj@fixed]
   ## lb[obj@fixed]=x[obj@fixed]
-  obj2=clone(obj)
+  obj2=clone(obj,deep=FALSE)
   optMod=optim(y,fn = scaledLL,obj=obj2,scale=sca,stickParams=TRUE,lower = lb,upper = ub,method="L-BFGS-B",
                control = list(ndeps=rep(10^-6,length(y))))
   probs=multiStickToProb(optMod$par[(rateEnd+1):length(optMod$par)],width=getAlleleData(obj)@nAlleles-1)
