@@ -18,6 +18,6 @@ methods::setGeneric("bic", function(obj,i) {
 #' @rdname bic
 methods::setMethod("bic", signature(obj = "rateModel"), function(obj) {
   ll=logLikelihood(obj=obj)
-  k=sum(obj@fixed)
+  k=sum(!obj@fixed)
   return(log(nSites(obj))*k-2*ll)
 })
