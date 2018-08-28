@@ -49,6 +49,7 @@ Collate:
     'nSites.R'
     'package.R'
     'plotTree.R'
+    'readPAF.R'
     'scaledLL.R'
     'setParamValue.R'
     'simData.R'
