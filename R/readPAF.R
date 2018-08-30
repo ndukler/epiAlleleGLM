@@ -15,7 +15,7 @@ readPAF <- function(f,subset){
   if(ncol(d) < 4){
     stop("PAF files must have at least 4 columns, \'site\', \'species\', then at least two alleles.")
   }
-  if(colnames(d)[1:2]!=c("site","species")){
+  if(any(colnames(d)[1:2]!=c("site","species"))){
     stop("The first two columns of a PAF file must be \'site\' and \'species\' respectively.")
   }
   ## Read in file
@@ -33,6 +33,6 @@ readPAF <- function(f,subset){
   finalSites=unique(d$site)
   ## Convert to species indexed list
   dList=split(d,by="species",keep.by = FALSE)
-  dList=lapply(dList,function(x) as.matrix(x[finalSites,-1]))
+  dList=lapply(dList,function(x) {data.table::setkey(x,"site");as.matrix(x[finalSites,-1])})
   return(list(dataList=dList,sites=finalSites))
 }
