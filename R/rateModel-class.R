@@ -107,7 +107,7 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
                                                    siteLabel=as.character(levels(siteLabels$siteLabel)),stringsAsFactors = FALSE))
   paramIndex=paramIndex[order(siteLabel,edgeGroup)] ## Order this way so that parameter indicies are grouped by site
   paramIndex[,rateIndex:=1:nrow(paramIndex)]
-  paramIndex[,piIndex:=(max(rateIndex)+1)+((as.numeric(as.factor(siteLabel))-1)*3)]
+  paramIndex[,piIndex:=(max(rateIndex)+1)+((as.numeric(as.factor(siteLabel))-1)*data@nAlleles)]
   data.table::setkeyv(x = paramIndex,cols = c("edgeGroup","siteLabel"))
   
   ## Build the parameter vector
