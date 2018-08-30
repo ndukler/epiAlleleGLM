@@ -13,10 +13,10 @@ readPAF <- function(f,subset){
   ## Check that format has at least 4 columns with fist two named "species" and "site"
   d=data.table::fread(f,nrows = 0)
   if(ncol(d) < 4){
-    stop("PAF files must have at least 4 columns, \'species\', \'site\', then at least two alleles.")
+    stop("PAF files must have at least 4 columns, \'site\', \'species\', then at least two alleles.")
   }
-  if(colnames(d)[1:2]!=c("species","site")){
-    stop("The first two columns of a PAF file must be \'species\' and \'site\' respectively.")
+  if(colnames(d)[1:2]!=c("site","species")){
+    stop("The first two columns of a PAF file must be \'site\' and \'species\' respectively.")
   }
   ## Read in file
   d=data.table::fread(f,key=c("site"))
