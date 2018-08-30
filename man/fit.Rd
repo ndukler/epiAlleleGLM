@@ -8,7 +8,7 @@
 
 \item{scale}{a scale factor to apply to log-likelihood, defaults to -1/nsites}
 
-\item{method}{Optimization method to use ("l-bfgs-b","mlsl")}
+\item{method}{Optimization method to use ("l-bfgs-b","mlsl","stogo")}
 }
 \value{
 a list incuding a rateModel object and information about the optimization

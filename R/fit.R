@@ -1,4 +1,4 @@
-methods::setGeneric("fit", function(obj,scale=NULL,method=c("l-bfgs-b","mlsl")) {
+methods::setGeneric("fit", function(obj,scale=NULL,method=c("l-bfgs-b","mlsl","stogo")) {
   standardGeneric("fit")
 })
 
@@ -7,14 +7,14 @@ methods::setGeneric("fit", function(obj,scale=NULL,method=c("l-bfgs-b","mlsl")) 
 #' Fits rate model object and returns fitted model
 #' @param obj rateModel
 #' @param scale a scale factor to apply to log-likelihood, defaults to -1/nsites
-#' @param method Optimization method to use ("l-bfgs-b","mlsl")
+#' @param method Optimization method to use ("l-bfgs-b","mlsl","stogo")
 #' @name fit
 #' @return a list incuding a rateModel object and information about the optimization
 #' @include rateModel-class.R
 #' @examples
 #' 
 #' @export
-methods::setMethod("fit", signature(obj = "rateModel"), function(obj,scale=NULL,method=c("l-bfgs-b","mlsl")) {
+methods::setMethod("fit", signature(obj = "rateModel"), function(obj,scale=NULL,method=c("l-bfgs-b","mlsl","stogo")) {
   ## scale defaults to -1/nsites
   if(is.null(scale)){
     sca=-1/nrow(getAlleleData(obj)@data)
@@ -22,7 +22,7 @@ methods::setMethod("fit", signature(obj = "rateModel"), function(obj,scale=NULL,
   ## Check method and set defaults
   if(length(method)>1){
     method="l-bfgs-b"
-  } else if(! method %in% c("l-bfgs-b","mlsl")){
+  } else if(! method %in% c("l-bfgs-b","mlsl","stogo")){
     stop("Invalid optimization method specified")
   }
   
@@ -45,6 +45,9 @@ methods::setMethod("fit", signature(obj = "rateModel"), function(obj,scale=NULL,
                control = list(ndeps=rep(10^-6,length(y))))
   } else if(method == "mlsl"){
     optMod=nloptr::mlsl(x0=y,fn = epiAllele:::scaledLL,lower = lb,upper = ub,obj=obj2,scale=sca,stickParams=TRUE)
+    counts=optMod$iter
+  } else if(method == "stogo"){
+    optMod=nloptr::stogo(x0=y,fn = epiAllele:::scaledLL,lower = lb,upper = ub,obj=obj2,scale=sca,stickParams=TRUE)
     counts=optMod$iter
   } else {
     stop("Invalid optimization method specified")
