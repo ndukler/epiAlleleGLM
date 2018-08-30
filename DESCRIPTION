@@ -13,7 +13,8 @@ Imports: Rcpp (>= 0.12.17),
          ggplot2,
          foreach,
          ggtree,
-         Matrix
+         Matrix,
+         nloptr
 LinkingTo: Rcpp
 Encoding: UTF-8
 Suggests: testthat,
