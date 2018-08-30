@@ -11,7 +11,6 @@ Imports: Rcpp (>= 0.12.17),
          ape,
          data.table,
          ggplot2,
-         randomcoloR,
          foreach,
          ggtree,
          Matrix
@@ -19,7 +18,8 @@ LinkingTo: Rcpp
 Encoding: UTF-8
 Suggests: testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    randomcoloR
 RoxygenNote: 6.1.0.9000
 Collate: 
     'RcppExports.R'

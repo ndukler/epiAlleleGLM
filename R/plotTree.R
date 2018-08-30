@@ -55,8 +55,12 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
   g$data=merge(g$data,temp,by = c(".id","node"),all.x = TRUE)   
   ## Color by indicated option
   if(colorByRate=="index"){
-    g=g+ggplot2::aes(color=index)+
-      ggplot2::scale_color_manual(values=randomcoloR::distinctColorPalette(length(levels(g$data$index))),breaks=levels(temp$index))
+    if (requireNamespace("randomcoloR", quietly = TRUE)){
+      g=g+ggplot2::aes(color=index)+
+        ggplot2::scale_color_manual(values=randomcoloR::distinctColorPalette(length(levels(g$data$index))),breaks=levels(temp$index))
+    } else {
+      g=g+ggplot2::aes(color=index)
+    }
   } else if(colorByRate=="value"){
     g=g+ggplot2::aes(color=value)+
       ggplot2::scale_color_viridis_c(end=0.7)
