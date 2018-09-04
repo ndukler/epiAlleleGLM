@@ -68,6 +68,7 @@ trmSE=rateSE(fittedTRM$model)
 ggplot(trmSE,aes(x=siteLabel,fill=edgeGroup,y=value))+
   geom_bar(stat = "identity",position="dodge")+
   geom_errorbar(aes(ymin=value-se, ymax=value+se), width=.2,position=position_dodge(.9))+
-  theme_bw()
+  theme_bw()+
+  ylab("Rate")
 ```
  
