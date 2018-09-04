@@ -60,4 +60,14 @@ deltaBIC=bic(fittedSRM$model)-bic(fittedTRM$model)
 print(deltaBIC) ## Bigger BIC values support rejecting the null model
 lrt(h0=fittedSRM$model,hA=fittedTRM$model) ## Smaller p-values support rejecting the null model
 ```
-
+If so desired, we can also extract approximate standard errors for the rate parameters and plot the results. If the bars for the rates do not overlap this can be approximately interperted as a rejection of the null hypothesis the the rates are the same across two different groups of elements. However, since the standard errors are computed uisng the hessian they may be imprecise, so conducting a rigourous LRT as shown above is preferred. 
+ 
+```{r}
+library(ggplot2)
+trmSE=rateSE(fittedTRM$model)
+ggplot(trmSE,aes(x=siteLabel,fill=edgeGroup,y=value))+
+  geom_bar(stat = "identity",position="dodge")+
+  geom_errorbar(aes(ymin=value-se, ymax=value+se), width=.2,position=position_dodge(.9))+
+  theme_bw()
+```
+ 
