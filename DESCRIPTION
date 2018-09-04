@@ -15,7 +15,8 @@ Imports: Rcpp (>= 0.12.17),
          foreach,
          ggtree,
          Matrix,
-         nloptr
+         nloptr,
+         numDeriv
 LinkingTo: Rcpp
 Encoding: UTF-8
 Suggests: testthat,
@@ -51,6 +52,7 @@ Collate:
     'nSites.R'
     'package.R'
     'plotTree.R'
+    'rateSE.R'
     'readPAF.R'
     'scaledLL.R'
     'setParamValue.R'
