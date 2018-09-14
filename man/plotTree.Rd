@@ -7,6 +7,8 @@
 \item{obj}{alleleData}
 
 \item{colorByRate}{Can be set to either color by the grouping of rates or their actual values. Only usable with rateModel object.}
+
+\item{scaleBranches}{If TRUE, branches are scaled by rate (default = FALSE)}
 }
 \description{
 Plots tree with various helpful highlightings

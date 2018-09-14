@@ -3,6 +3,7 @@
 #' Plots tree with various helpful highlightings
 #' @param obj alleleData
 #' @param colorByRate Can be set to either color by the grouping of rates or their actual values. Only usable with rateModel object.
+#' @param scaleBranches If TRUE, branches are scaled by rate (default = FALSE)
 #' @name plotTree
 #' @include alleleData-class.R
 #' @include rateModel-class.R
@@ -25,7 +26,7 @@ methods::setMethod("plotTree", signature(obj = "alleleData"), function(obj) {
 
 #' @name plotTree
 #' @rdname plotTree
-methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorByRate=c("index","value")) {
+methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorByRate=c("index","value"),scaleBranches=FALSE) {
   ## Checks and default setting
   if(length(colorByRate)>1) colorByRate="index"
   if(!colorByRate %in% c("index","value")) stop("colorByRate must be either \'index'\ or \'value\'")
@@ -36,13 +37,21 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
   trList=list()
   for(l in levels(obj@siteLabels$siteLabel)){
     temp[[l]]=data.table::data.table(node = getEdgeGroupTable(obj)$child,index=getRateIndex(obj,edges = getEdgeGroupTable(obj)[,.(parent,child)],siteLabel = l))
-    trList[[l]]=tr
   }
   temp=data.table::rbindlist(temp,idcol=TRUE)
+  ## Add rate values to temp data.table
   temp[,value:=getParamValue(obj,index)]
   temp[,index:=factor(index)]
-  class(trList) <- "multiPhylo"
   
+  ## Create list of trees
+  for(l in levels(obj@siteLabels$siteLabel)){
+    trList[[l]]=tr
+    ## Scale branches in tree if option set
+    if(scaleBranches){
+      trList[[l]]$edge.length=tr$edge.length*temp[.id==l][order(index)]$value
+    }
+  }
+  class(trList) <- "multiPhylo"
 
   ## plot building
   g <- ggtree::ggtree(trList)+

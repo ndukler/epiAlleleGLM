@@ -1,0 +1,57 @@
+---
+title: "Fitting a full tree"
+author: "Noah Dukler"
+date: "September 14, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+In order to simulate data we must first create a tree and set edge lengths to desired values
+```{r}
+library(epiAllele)
+library(ape)
+library(cowplot)
+
+set.seed(123)
+### Create a tree
+trTrue <- unroot(rtree(n = 5, br = runif))
+trTrue$edge.length=sample(seq(0.1,1,by=0.1),size = length(trTrue$edge.length),replace = TRUE)
+plot(trTrue)
+```
+
+Now we simulate from the true tree with a selected stationary distibution for allele frequency. 
+
+```{r}
+sData=simData(nSites = 10000,tr=trTrue,rate = 1,pi = c(0.3,0.7))
+```
+
+Now we create a copy of the true tree where all branch lengths are one for ease of comparing the fitted rates. We place the simulated data and the copy of the tree in an alleleData object and then a rateModel. We can check that the rate assignments are correct by plotting the rate model object.
+
+```{r}
+trCopy=trTrue
+trCopy$edge.length=rep(1,length(trCopy$edge.length))
+ad=alleleData(data = sData$data,tree = trCopy)
+eTab=getEdgeTable(ad)
+eTab[,edgeGroup:=paste0("e",1:length(edgeID))]
+fullMod=rateModel(data=ad,lineageTable=eTab)
+plotTree(fullMod)
+```
+ 
+Now lets fit the model.
+
+```{r}
+fittedTree=fit(fullMod,control = list(maxit=500))
+plotFun = function() {plot(trTrue,show.tip.label = FALSE);tiplabels()}
+g = plotTree(fittedTree$model,"index",TRUE)
+plot_grid(plotFun,g)
+```
+We can also extract the scaled tree for another use if we want:
+```{r}
+trScaled=exportScaledTree(fittedTree$model)
+
+```
+

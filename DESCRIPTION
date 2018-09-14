@@ -34,6 +34,7 @@ Collate:
     'branchRateMatrix.R'
     'clone.R'
     'disCharToProb.R'
+    'exportScaledTree.R'
     'fit.R'
     'getAlleleData.R'
     'getEdgeGroupTable.R'
