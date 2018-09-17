@@ -30,6 +30,5 @@ methods::setMethod("exportScaledTree", signature(obj = "rateModel"), function(ob
     trList[[l]]=tr
     trList[[l]]$edge.length=tr$edge.length*temp[.id==l][order(index)]$value
   }
-  class(trList) <- "multiPhylo"
   return(trList)
 })
