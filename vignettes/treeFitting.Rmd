@@ -19,6 +19,7 @@ library(cowplot)
 set.seed(123)
 ### Create a tree
 trTrue <- unroot(rtree(n = 5, br = runif))
+trTrue=reorder.phylo(trTrue,"postorder")
 trTrue$edge.length=sample(seq(0.1,1,by=0.1),size = length(trTrue$edge.length),replace = TRUE)
 plot(trTrue)
 ```
@@ -26,7 +27,7 @@ plot(trTrue)
 Now we simulate from the true tree with a selected stationary distibution for allele frequency. 
 
 ```{r}
-sData=simData(nSites = 10000,tr=trTrue,rate = 1,pi = c(0.3,0.7))
+sData=simData(nSites = 100000,tr=trTrue,rate = 1,pi = c(0.3,0.7))
 ```
 
 Now we create a copy of the true tree where all branch lengths are one for ease of comparing the fitted rates. We place the simulated data and the copy of the tree in an alleleData object and then a rateModel. We can check that the rate assignments are correct by plotting the rate model object.
@@ -52,6 +53,15 @@ plot_grid(plotFun,g)
 We can also extract the scaled tree for another use if we want:
 ```{r}
 trScaled=exportScaledTree(fittedTree$model)
-
+elCompare=matrix(0,ncol=2,nrow=nrow(trTrue$edge))
+ind=1
+for(i in trTrue$edge[,2]){
+  elCompare[ind,1]=trTrue$edge.length[trTrue$edge[,2]==i]
+  elCompare[ind,2]=trScaled[[1]]$edge.length[trScaled[[1]]$edge[,2]==i]
+  ind=ind+1
+}
+r=cor(elCompare[,1],elCompare[,2])
+plot(elCompare[,1],elCompare[,2],xlim = c(0,1),ylim = c(0,1))
+abline(a=0,b=1)
 ```
 
