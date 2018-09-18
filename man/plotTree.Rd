@@ -9,6 +9,11 @@
 \item{colorByRate}{Can be set to either color by the grouping of rates or their actual values. Only usable with rateModel object.}
 
 \item{scaleBranches}{If TRUE, branches are scaled by rate (default = FALSE)}
+
+\item{offset}{How much to offset tip labels by}
+
+\item{xmax}{Maximum value of x axis in tree plots (Note: if you want different x axis for different tree 
+plots use \link[ggtree]{xlim_expand} on the returned object)}
 }
 \description{
 Plots tree with various helpful highlightings
