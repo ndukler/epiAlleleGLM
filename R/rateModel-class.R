@@ -75,7 +75,8 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
       stop("All rates must be greater than zero")
     } 
   } else {
-    rate=0.1    
+    ## Default rate expects one event per site
+    rate=1/sum(getTree(ad)$edge.length)
   }
   
   ## ** Intermediate reformating and computation ** ##
