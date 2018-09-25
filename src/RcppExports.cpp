@@ -57,6 +57,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// preorderMessagePassing
+arma::cube preorderMessagePassing(const NumericMatrix& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, const NumericVector& logPi, int ncores);
+RcppExport SEXP _epiAllele_preorderMessagePassing(SEXP dataSEXP, SEXP tMatSEXP, SEXP traversalSEXP, SEXP nTipsSEXP, SEXP logPiSEXP, SEXP ncoresSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const NumMatList& >::type tMat(tMatSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type traversal(traversalSEXP);
+    Rcpp::traits::input_parameter< const double >::type nTips(nTipsSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type logPi(logPiSEXP);
+    Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
+    rcpp_result_gen = Rcpp::wrap(preorderMessagePassing(data, tMat, traversal, nTips, logPi, ncores));
+    return rcpp_result_gen;
+END_RCPP
+}
 // probToStick
 NumericVector probToStick(NumericVector x);
 RcppExport SEXP _epiAllele_probToStick(SEXP xSEXP) {
@@ -112,6 +128,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_epiAllele_multiProbToStick", (DL_FUNC) &_epiAllele_multiProbToStick, 2},
     {"_epiAllele_multiStickToProb", (DL_FUNC) &_epiAllele_multiStickToProb, 2},
     {"_epiAllele_postorderMessagePassing", (DL_FUNC) &_epiAllele_postorderMessagePassing, 6},
+    {"_epiAllele_preorderMessagePassing", (DL_FUNC) &_epiAllele_preorderMessagePassing, 6},
     {"_epiAllele_probToStick", (DL_FUNC) &_epiAllele_probToStick, 1},
     {"_epiAllele_setValues", (DL_FUNC) &_epiAllele_setValues, 3},
     {"_epiAllele_stickToProb", (DL_FUNC) &_epiAllele_stickToProb, 1},

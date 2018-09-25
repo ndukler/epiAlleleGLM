@@ -44,6 +44,10 @@ postorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, ncores 
     .Call('_epiAllele_postorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, ncores)
 }
 
+preorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, ncores = 1L) {
+    .Call('_epiAllele_preorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, ncores)
+}
+
 #' probToStick 
 #'
 #' Convert a set of probabilities that sum to one to a set of stick breaking parameters
