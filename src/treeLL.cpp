@@ -1,4 +1,5 @@
-#include <Rcpp.h>
+#include <RcppArmadillo.h>
+// [[Rcpp::depends(RcppArmadillo)]]
 #include "logSumExp.h"
 #include "epiAllele_types.h"
 using namespace Rcpp;

@@ -2,6 +2,7 @@
 // Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #include "epiAllele_types.h"
+#include <RcppArmadillo.h>
 #include <Rcpp.h>
 
 using namespace Rcpp;
@@ -37,6 +38,22 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const NumericVector& >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type width(widthSEXP);
     rcpp_result_gen = Rcpp::wrap(multiStickToProb(x, width));
+    return rcpp_result_gen;
+END_RCPP
+}
+// postorderMessagePassing
+arma::cube postorderMessagePassing(const NumericMatrix& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, const NumericVector& logPi, int ncores);
+RcppExport SEXP _epiAllele_postorderMessagePassing(SEXP dataSEXP, SEXP tMatSEXP, SEXP traversalSEXP, SEXP nTipsSEXP, SEXP logPiSEXP, SEXP ncoresSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const NumMatList& >::type tMat(tMatSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type traversal(traversalSEXP);
+    Rcpp::traits::input_parameter< const double >::type nTips(nTipsSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type logPi(logPiSEXP);
+    Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
+    rcpp_result_gen = Rcpp::wrap(postorderMessagePassing(data, tMat, traversal, nTips, logPi, ncores));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -94,6 +111,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_epiAllele_logSumExp", (DL_FUNC) &_epiAllele_logSumExp, 1},
     {"_epiAllele_multiProbToStick", (DL_FUNC) &_epiAllele_multiProbToStick, 2},
     {"_epiAllele_multiStickToProb", (DL_FUNC) &_epiAllele_multiStickToProb, 2},
+    {"_epiAllele_postorderMessagePassing", (DL_FUNC) &_epiAllele_postorderMessagePassing, 6},
     {"_epiAllele_probToStick", (DL_FUNC) &_epiAllele_probToStick, 1},
     {"_epiAllele_setValues", (DL_FUNC) &_epiAllele_setValues, 3},
     {"_epiAllele_stickToProb", (DL_FUNC) &_epiAllele_stickToProb, 1},

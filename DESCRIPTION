@@ -16,8 +16,10 @@ Imports: Rcpp (>= 0.12.17),
          ggtree,
          Matrix,
          nloptr,
-         numDeriv
-LinkingTo: Rcpp
+         numDeriv,
+         RcppArmadillo
+LinkingTo: Rcpp,
+           RcppArmadillo
 Encoding: UTF-8
 Suggests: testthat,
     knitr,
