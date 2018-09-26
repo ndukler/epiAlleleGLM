@@ -14,17 +14,17 @@
 // Parallelized C++ equivalent
 // [[Rcpp::export]]
 arma::cube preorderMessagePassing(const NumericMatrix& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, 
-                                   const NumericVector& logPi,int ncores = 1) {
+                                   const NumericVector& logPi,const NumVecList& siblings, int ncores = 1) {
   unsigned int sites=data.nrow();
   unsigned int nAlleles=logPi.size();
   unsigned int nNode=Rcpp::max(traversal(_,0))+1; // The total number of nodes on the tree
   arma::cube poTab(sites,nNode,nAlleles,arma::fill::zeros);  
   
+  unsigned int root=traversal(traversal.nrow()-1,0); // Get the index of the root node
   // Added an omp pragma directive to parallelize the loop with ncores
-#pragma omp parallel for num_threads(ncores)
+  #pragma omp parallel for num_threads(ncores)
   for(unsigned int i=0;i<sites;i++){
     // Initialize the root
-    unsigned int root=traversal(traversal.nrow()-1,0); // Get the index of the root node
     for(unsigned int a=0;a<nAlleles;a++){
       poTab(i,root,a)=logPi(a);
     }
