@@ -43,7 +43,7 @@ methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function
     logTransMat[tt$child]=ltm
     logTransMat[[tt$parent[nrow(tt)]]]=matrix(0,length(pi),length(pi)) ## placeholder matrix to avoid error when passing to Rcpp
     ## Compute the marginal transitions
-    margTrans=epiAllele:::marginalTransitionsCpp(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi),sibblings=sibblingList)
+    margTrans=epiAllele:::marginalTransitionsCpp(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi),siblings=siblingList)
   }
   return(margTrans)
 })
