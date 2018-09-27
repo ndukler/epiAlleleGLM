@@ -20,7 +20,7 @@ arma::mat postorderMessagePassing(const NumericVector& data, const NumMatList& t
   for(unsigned int n=0;n<traversal.nrow();n++){
     unsigned int parentInd=traversal(n,0);
     unsigned int childInd=traversal(n,1);
-    arma::mat tMatA = as<arma::mat>(tMat[n]);
+    arma::mat tMatA = as<arma::mat>(tMat[childInd]);
     for(unsigned int a=0;a<nAlleles;a++){ // iterate over all parental alleles
       poTab(parentInd,a) = poTab(parentInd,a) + logSumExpArma((arma::vec) poTab(arma::span(childInd), arma::span::all)+ tMatA.row(a).t());
     }
