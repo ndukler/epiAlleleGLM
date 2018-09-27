@@ -29,7 +29,10 @@ methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function
   rates=getParams(obj)[getRateIndex(obj,edges = tt,siteLabel = l)]
   pi=getParams(obj)[getPiIndex(obj,siteLabel = l)]
   ## Compute transition matricies
-  logTransMat=branchRateMatrix(rate = rates,branch.length =  getTree(obj)$edge.length,pi = pi)
+  ltm=branchRateMatrix(rate = rates,branch.length =  getTree(obj)$edge.length,pi = pi)
+  ## Re-sort logTransMat so that the matricies are ordered in the list by the node number of the child
+  logTransMat=list()
+  logTransMat[tt$child]=ltm
   ## Create a list of all siblings for each node 
   sibblingList=list()
   for(n in sort(unique(as.numeric(tr$edge)))){
