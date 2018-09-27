@@ -24,9 +24,9 @@ methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function
   ## Create a list of all siblings for each node 
   siblingList=list()
   for(n in sort(unique(as.numeric(tr$edge)))){
-    siblingList[[n]]=getSiblings(getTree(obj),n)
+    siblingList[[n]]=getSiblings(getTree(obj),n)-1
   }
-   # l = siteTypes[1]
+  #  l = siteTypes[1]
   `%myPar%` <- ifelse(foreach::getDoParRegistered(), yes = foreach::`%dopar%`, no = foreach::`%do%`)
   siteGroupLik=foreach::foreach(l=siteTypes) %myPar% {
     ## Extract subset of data for site
@@ -43,7 +43,8 @@ methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function
     logTransMat[tt$child]=ltm
     logTransMat[[tt$parent[nrow(tt)]]]=matrix(0,length(pi),length(pi)) ## placeholder matrix to avoid error when passing to Rcpp
     ## Compute the marginal transitions
-    margTrans=epiAllele:::marginalTransitionsCpp(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi),siblings=siblingList)
+    margTrans=epiAllele:::marginalTransitionsCpp(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi),
+                                                 siblings=siblingList)
   }
   return(margTrans)
 })

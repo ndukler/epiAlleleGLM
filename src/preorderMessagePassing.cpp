@@ -2,31 +2,32 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 #include "logSumExp.h"
 #include "epiAllele_types.h"
+using namespace Rcpp;
 
 // [[Rcpp::export]]
-arma::mat preorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, 
-                                   const NumericVector& logPi,const NumericMatrix& alpha,const NumVecList& siblings, int nNode, int root, int ncores = 1) {
-  unsigned int nAlleles=logPi.size();
-  arma::mat poTab(nNode,nAlleles,arma::fill::zeros);  
-  
+NumericMatrix preorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const int nTips, 
+                                   const NumericVector& logPi,const NumericMatrix& alpha,const NumVecList& siblings, int nNode, int root) {
+  int nAlleles=logPi.size();
+  NumericMatrix poTab(nNode,nAlleles);  
   // Initialize the root
-  for(unsigned int a=0;a<nAlleles;a++){
+  for(int a=0;a<nAlleles;a++){
       poTab(root,a)=logPi(a);
   }
   // Now compute the probability for the interior nodes
-  for(int n=traversal.nrow()-1;n>=0;n--){
-    unsigned int parentInd=traversal(n,0);
-    unsigned int childInd=traversal(n,1);
-    arma::mat tMatA = as<arma::mat>(tMat[n]);
-    NumericVector msgHolder(nAlleles*nAlleles);
-    int iter=0;
-    for(unsigned int a=0;a<nAlleles;a++){ // iterate over all parental alleles
-      for(unsigned int b=0;b<nAlleles;b++){ // iterate over all sibbling alleles
-        // Parental contibution to message
-        
-        // Sibbing contribution to message
-        iter++;
+  for(int n=traversal.nrow()-1;n>=0;n=n-1){
+    int parentInd=traversal(n,0);
+    int childInd=traversal(n,1);
+    for(unsigned int a=0;a<nAlleles;a++){ // iterate over all alleles of focal node
+      NumericVector msgHolder(nAlleles);
+      for(unsigned int b=0;b<nAlleles;b++){ // iterate over all states of parental node summing over all sibblings
+        double parentContrib = poTab(parentInd,b) + tMat[childInd](b,a); // calculate the parent contribution
+        double sibContrib = 0; // holds the sibling contribution
+        for(int s=0;s<siblings[childInd].size();s++){ // iterate over siblings
+          sibContrib=sibContrib+logSumExp(alpha(siblings[childInd](s),_)+tMat[siblings[childInd](s)](b,_));
+        }
+        msgHolder(b)=parentContrib+sibContrib;
       }
+      poTab(childInd,a)=logSumExp(msgHolder);
     }
   }
   return(poTab);

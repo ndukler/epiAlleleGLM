@@ -8,6 +8,6 @@ using namespace Rcpp;
 
 NumericMatrix postorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const int nTips, 
                                   const NumericVector& logPi,unsigned int nNode);
-arma::mat preorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const int nTips, 
-                                 const NumericVector& logPi,const NumericMatrix& alpha, const NumVecList& siblings, int nNode, int root);
+NumericMatrix preorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const int nTips, 
+                                     const NumericVector& logPi,const NumericMatrix& alpha,const NumVecList& siblings, int nNode, int root);
 #endif
