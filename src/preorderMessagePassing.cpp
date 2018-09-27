@@ -17,9 +17,16 @@ arma::mat preorderMessagePassing(const NumericVector& data, const NumMatList& tM
   for(int n=traversal.nrow()-1;n>=0;n--){
     unsigned int parentInd=traversal(n,0);
     unsigned int childInd=traversal(n,1);
-    arma::mat tMatA = as<arma::mat>(tMat[n]); 
+    arma::mat tMatA = as<arma::mat>(tMat[n]);
+    NumericVector msgHolder(nAlleles*nAlleles);
+    int iter=0;
     for(unsigned int a=0;a<nAlleles;a++){ // iterate over all parental alleles
-      poTab(childInd,a) = logSumExpArma((arma::vec) poTab(arma::span(parentInd), arma::span::all) + tMatA.col(a));
+      for(unsigned int b=0;b<nAlleles;b++){ // iterate over all sibbling alleles
+        // Parental contibution to message
+        
+        // Sibbing contribution to message
+        iter++;
+      }
     }
   }
   return(poTab);
