@@ -5,10 +5,10 @@
 
 // Forward message passing for a single site
 // [[Rcpp::export]]
-arma::mat postorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, 
-                                  const NumericVector& logPi,unsigned int nNode,int ncores = 1) {
+NumericMatrix postorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const int nTips, 
+                                  const NumericVector& logPi,unsigned int nNode) {
   unsigned int nAlleles=logPi.size();
-  arma::mat poTab(nNode,nAlleles,arma::fill::zeros);  
+  NumericMatrix poTab(nNode,nAlleles);  
   
   // Initialize values for the tips of the tree
   for(unsigned int n=0;n<nTips;n++){
@@ -20,9 +20,8 @@ arma::mat postorderMessagePassing(const NumericVector& data, const NumMatList& t
   for(unsigned int n=0;n<traversal.nrow();n++){
     unsigned int parentInd=traversal(n,0);
     unsigned int childInd=traversal(n,1);
-    arma::mat tMatA = as<arma::mat>(tMat[childInd]);
     for(unsigned int a=0;a<nAlleles;a++){ // iterate over all parental alleles
-      poTab(parentInd,a) = poTab(parentInd,a) + logSumExpArma((arma::vec) poTab(arma::span(childInd), arma::span::all)+ tMatA.row(a).t());
+      poTab(parentInd,a) = poTab(parentInd,a) + logSumExp(poTab(childInd,_) + tMat[childInd](a,_));
     }
   }
   return(poTab);
