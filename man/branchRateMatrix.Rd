@@ -16,7 +16,8 @@ branchRateMatrix(rate, branch.length, pi, log = TRUE)
 \item{log}{if TRUE returns log transition matricies}
 }
 \value{
-a list of transition matricies, one entry for each specified branch length
+a list of transition matricies, one entry for each specified branch length. The rows are the parental allele,
+the columns are the child allele.
 }
 \description{
 Compute exponentiated rate matrix for all branches
