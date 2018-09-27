@@ -26,7 +26,7 @@ arma::cube marginalTransitionsCpp(const NumericMatrix& data, const NumMatList& t
   for(int i=0;i<data.nrow();i++){
     // First do the forward message passing up to the root
     arma::mat alpha=postorderMessagePassing((Rcpp::NumericVector) data(i,_),tMat,traversal,nTips,logPi,nNode);
-    arma::mat beta=preorderMessagePassing((Rcpp::NumericVector) data(i,_),tMat,traversal,nTips,logPi,siblings,nNode,root);
+    arma::mat beta=preorderMessagePassing((Rcpp::NumericVector) data(i,_),tMat,traversal,nTips,logPi,alpha,siblings,nNode,root);
   }
   return(expectedTransitions);
 }

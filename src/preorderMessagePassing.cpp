@@ -5,7 +5,7 @@
 
 // [[Rcpp::export]]
 arma::mat preorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, 
-                                   const NumericVector& logPi,const NumVecList& siblings, int nNode, int root, int ncores = 1) {
+                                   const NumericVector& logPi,const NumericMatrix& alpha,const NumVecList& siblings, int nNode, int root, int ncores = 1) {
   unsigned int nAlleles=logPi.size();
   arma::mat poTab(nNode,nAlleles,arma::fill::zeros);  
   
