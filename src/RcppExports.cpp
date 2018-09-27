@@ -17,6 +17,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// marginalTransitionsCpp
+arma::cube marginalTransitionsCpp(const NumericMatrix& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, const NumericVector& logPi, const NumVecList& siblings, int ncores);
+RcppExport SEXP _epiAllele_marginalTransitionsCpp(SEXP dataSEXP, SEXP tMatSEXP, SEXP traversalSEXP, SEXP nTipsSEXP, SEXP logPiSEXP, SEXP siblingsSEXP, SEXP ncoresSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const NumMatList& >::type tMat(tMatSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type traversal(traversalSEXP);
+    Rcpp::traits::input_parameter< const double >::type nTips(nTipsSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type logPi(logPiSEXP);
+    Rcpp::traits::input_parameter< const NumVecList& >::type siblings(siblingsSEXP);
+    Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
+    rcpp_result_gen = Rcpp::wrap(marginalTransitionsCpp(data, tMat, traversal, nTips, logPi, siblings, ncores));
+    return rcpp_result_gen;
+END_RCPP
+}
 // multiProbToStick
 NumericVector multiProbToStick(const NumericVector& x, int width);
 RcppExport SEXP _epiAllele_multiProbToStick(SEXP xSEXP, SEXP widthSEXP) {
@@ -42,34 +59,37 @@ BEGIN_RCPP
 END_RCPP
 }
 // postorderMessagePassing
-arma::cube postorderMessagePassing(const NumericMatrix& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, const NumericVector& logPi, int ncores);
-RcppExport SEXP _epiAllele_postorderMessagePassing(SEXP dataSEXP, SEXP tMatSEXP, SEXP traversalSEXP, SEXP nTipsSEXP, SEXP logPiSEXP, SEXP ncoresSEXP) {
+arma::mat postorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, const NumericVector& logPi, unsigned int nNode, int ncores);
+RcppExport SEXP _epiAllele_postorderMessagePassing(SEXP dataSEXP, SEXP tMatSEXP, SEXP traversalSEXP, SEXP nTipsSEXP, SEXP logPiSEXP, SEXP nNodeSEXP, SEXP ncoresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< const NumMatList& >::type tMat(tMatSEXP);
     Rcpp::traits::input_parameter< const NumericMatrix& >::type traversal(traversalSEXP);
     Rcpp::traits::input_parameter< const double >::type nTips(nTipsSEXP);
     Rcpp::traits::input_parameter< const NumericVector& >::type logPi(logPiSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type nNode(nNodeSEXP);
     Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
-    rcpp_result_gen = Rcpp::wrap(postorderMessagePassing(data, tMat, traversal, nTips, logPi, ncores));
+    rcpp_result_gen = Rcpp::wrap(postorderMessagePassing(data, tMat, traversal, nTips, logPi, nNode, ncores));
     return rcpp_result_gen;
 END_RCPP
 }
 // preorderMessagePassing
-arma::cube preorderMessagePassing(const NumericMatrix& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, const NumericVector& logPi, int ncores);
-RcppExport SEXP _epiAllele_preorderMessagePassing(SEXP dataSEXP, SEXP tMatSEXP, SEXP traversalSEXP, SEXP nTipsSEXP, SEXP logPiSEXP, SEXP ncoresSEXP) {
+arma::mat preorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, const NumericVector& logPi, const NumVecList& siblings, int nNode, int ncores);
+RcppExport SEXP _epiAllele_preorderMessagePassing(SEXP dataSEXP, SEXP tMatSEXP, SEXP traversalSEXP, SEXP nTipsSEXP, SEXP logPiSEXP, SEXP siblingsSEXP, SEXP nNodeSEXP, SEXP ncoresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< const NumMatList& >::type tMat(tMatSEXP);
     Rcpp::traits::input_parameter< const NumericMatrix& >::type traversal(traversalSEXP);
     Rcpp::traits::input_parameter< const double >::type nTips(nTipsSEXP);
     Rcpp::traits::input_parameter< const NumericVector& >::type logPi(logPiSEXP);
+    Rcpp::traits::input_parameter< const NumVecList& >::type siblings(siblingsSEXP);
+    Rcpp::traits::input_parameter< int >::type nNode(nNodeSEXP);
     Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
-    rcpp_result_gen = Rcpp::wrap(preorderMessagePassing(data, tMat, traversal, nTips, logPi, ncores));
+    rcpp_result_gen = Rcpp::wrap(preorderMessagePassing(data, tMat, traversal, nTips, logPi, siblings, nNode, ncores));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -125,10 +145,11 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_epiAllele_logSumExp", (DL_FUNC) &_epiAllele_logSumExp, 1},
+    {"_epiAllele_marginalTransitionsCpp", (DL_FUNC) &_epiAllele_marginalTransitionsCpp, 7},
     {"_epiAllele_multiProbToStick", (DL_FUNC) &_epiAllele_multiProbToStick, 2},
     {"_epiAllele_multiStickToProb", (DL_FUNC) &_epiAllele_multiStickToProb, 2},
-    {"_epiAllele_postorderMessagePassing", (DL_FUNC) &_epiAllele_postorderMessagePassing, 6},
-    {"_epiAllele_preorderMessagePassing", (DL_FUNC) &_epiAllele_preorderMessagePassing, 6},
+    {"_epiAllele_postorderMessagePassing", (DL_FUNC) &_epiAllele_postorderMessagePassing, 7},
+    {"_epiAllele_preorderMessagePassing", (DL_FUNC) &_epiAllele_preorderMessagePassing, 8},
     {"_epiAllele_probToStick", (DL_FUNC) &_epiAllele_probToStick, 1},
     {"_epiAllele_setValues", (DL_FUNC) &_epiAllele_setValues, 3},
     {"_epiAllele_stickToProb", (DL_FUNC) &_epiAllele_stickToProb, 1},

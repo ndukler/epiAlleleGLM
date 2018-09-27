@@ -18,6 +18,10 @@ logSumExp <- function(x) {
     .Call('_epiAllele_logSumExp', PACKAGE = 'epiAllele', x)
 }
 
+marginalTransitionsCpp <- function(data, tMat, traversal, nTips, logPi, siblings, ncores = 1L) {
+    .Call('_epiAllele_marginalTransitionsCpp', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, siblings, ncores)
+}
+
 #' multiProbToStick 
 #'
 #' Convert a multiple sets of stick breaking parameters to a set of probabilities that sum to one
@@ -40,12 +44,12 @@ multiStickToProb <- function(x, width) {
     .Call('_epiAllele_multiStickToProb', PACKAGE = 'epiAllele', x, width)
 }
 
-postorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, ncores = 1L) {
-    .Call('_epiAllele_postorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, ncores)
+postorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, nNode, ncores = 1L) {
+    .Call('_epiAllele_postorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, nNode, ncores)
 }
 
-preorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, ncores = 1L) {
-    .Call('_epiAllele_preorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, ncores)
+preorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, siblings, nNode, ncores = 1L) {
+    .Call('_epiAllele_preorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, siblings, nNode, ncores)
 }
 
 #' probToStick 
