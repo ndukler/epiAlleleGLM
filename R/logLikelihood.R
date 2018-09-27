@@ -35,6 +35,7 @@ methods::setMethod("logLikelihood", signature(x="missing",obj = "rateModel"), fu
     ## Re-sort logTransMat so that the matricies are ordered in the list by the node number of the child
     logTransMat=list()
     logTransMat[tt$child]=ltm
+    logTransMat[[tt$parent[nrow(tt)]]]=matrix(0,length(pi),length(pi)) ## placeholder matrix to avoid error when passing to Rcpp
     ## Compute log-likelihood
     siteLik=treeLL(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi))
     return(sum(siteLik))
