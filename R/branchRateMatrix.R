@@ -5,7 +5,8 @@
 #' @param pi stationary distribution of allele frequencies
 #' @param log if TRUE returns log transition matricies
 #' @name branchRateMatrix
-#' @return a list of transition matricies, one entry for each specified branch length
+#' @return a list of transition matricies, one entry for each specified branch length. The rows are the parental allele,
+#' the columns are the child allele.
 branchRateMatrix <- function(rate,branch.length,pi,log=TRUE){
   ## Check that there are the same number of rates as there are branch lengths
   if(length(rate) != length(branch.length)){
