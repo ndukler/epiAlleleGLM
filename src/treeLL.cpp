@@ -28,7 +28,7 @@ NumericVector treeLL(const NumericMatrix& data, const NumMatList& tMat, const Nu
       int parentInd=traversal(n,0);
       int childInd=traversal(n,1);
       for(int a=0;a<nAlleles;a++){ // iterate over all parental alleles
-        nodeLogProb(parentInd,a) = nodeLogProb(parentInd,a) + logSumExp(nodeLogProb(childInd,_)+tMat[n](a,_));
+        nodeLogProb(parentInd,a) = nodeLogProb(parentInd,a) + logSumExp(nodeLogProb(childInd,_)+tMat[childInd](a,_));
       }
     }
     siteLik(i)=logSumExp(nodeLogProb(root,_)+logPi);

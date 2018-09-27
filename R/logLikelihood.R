@@ -31,7 +31,11 @@ methods::setMethod("logLikelihood", signature(x="missing",obj = "rateModel"), fu
     rates=getParams(obj)[getRateIndex(obj,edges = tt,siteLabel = l)]
     pi=getParams(obj)[getPiIndex(obj,siteLabel = l)]
     ## Compute transition matricies
-    logTransMat=branchRateMatrix(rate = rates,branch.length =  getTree(obj)$edge.length,pi = pi)
+    ltm=branchRateMatrix(rate = rates,branch.length =  getTree(obj)$edge.length,pi = pi)
+    ## Re-sort logTransMat so that the matricies are ordered in the list by the node number of the child
+    logTransMat=list()
+    logTransMat[tt$child]=ltm
+    ## Compute log-likelihood
     siteLik=treeLL(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi))
     return(sum(siteLik))
   }
