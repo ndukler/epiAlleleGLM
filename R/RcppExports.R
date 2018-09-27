@@ -44,12 +44,12 @@ multiStickToProb <- function(x, width) {
     .Call('_epiAllele_multiStickToProb', PACKAGE = 'epiAllele', x, width)
 }
 
-postorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, nNode, ncores = 1L) {
-    .Call('_epiAllele_postorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, nNode, ncores)
+postorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, nNode) {
+    .Call('_epiAllele_postorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, nNode)
 }
 
-preorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, siblings, nNode, root, ncores = 1L) {
-    .Call('_epiAllele_preorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, siblings, nNode, root, ncores)
+preorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, alpha, siblings, nNode, root) {
+    .Call('_epiAllele_preorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, alpha, siblings, nNode, root)
 }
 
 #' probToStick 

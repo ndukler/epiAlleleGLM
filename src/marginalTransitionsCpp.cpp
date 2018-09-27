@@ -3,6 +3,7 @@
 #include "logSumExp.h"
 #include "epiAllele_types.h"
 #include "msgPassing.h"
+using namespace Rcpp;
 
 // Add a flag to enable OpenMP at compile time
 // [[Rcpp::plugins(openmp)]]
@@ -24,9 +25,21 @@ arma::cube marginalTransitionsCpp(const NumericMatrix& data, const NumMatList& t
   // Iterate over all sites
   #pragma omp parallel for num_threads(ncores)
   for(int i=0;i<data.nrow();i++){
-    // First do the forward message passing up to the root
-    arma::mat alpha=postorderMessagePassing((Rcpp::NumericVector) data(i,_),tMat,traversal,nTips,logPi,nNode);
-    arma::mat beta=preorderMessagePassing((Rcpp::NumericVector) data(i,_),tMat,traversal,nTips,logPi,alpha,siblings,nNode,root);
+    // Do the message passing
+    NumericMatrix alpha=postorderMessagePassing((Rcpp::NumericVector) data(i,_),tMat,traversal,nTips,logPi,nNode);
+    NumericMatrix beta=preorderMessagePassing((Rcpp::NumericVector) data(i,_),tMat,traversal,nTips,logPi,alpha,siblings,nNode,root);
+    for(int e=0; e<traversal.nrow();e++){
+      int parentInd=traversal(e,0);
+      int childInd=traversal(e,1);
+      for(int a=0;a<nAlleles;a++){ // iterate over parent alleles
+        for(int b=0;b<nAlleles;b++){ // iterate over child alleles
+          expectedTransitions(e,a,b) = beta(parentInd,a)+ tMat[childInd](a,b) + alpha(childInd,b);
+        }
+      }
+      // Compute partition function
+      double Z = logSumExpArma(arma::vectorise((arma::mat) expectedTransitions(arma::span(e),arma::span::all,arma::span::all)));
+      expectedTransitions(arma::span(e),arma::span::all,arma::span::all)=expectedTransitions(arma::span(e),arma::span::all,arma::span::all)-Z;
+    }
   }
   return(expectedTransitions);
 }

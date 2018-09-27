@@ -28,7 +28,7 @@ methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function
   }
   #  l = siteTypes[1]
   `%myPar%` <- ifelse(foreach::getDoParRegistered(), yes = foreach::`%dopar%`, no = foreach::`%do%`)
-  siteGroupLik=foreach::foreach(l=siteTypes) %myPar% {
+  groupTrans=foreach::foreach(l=siteTypes) %myPar% {
     ## Extract subset of data for site
     data=getAlleleData(obj)@data[getLabelIndices(obj,l),,drop=FALSE]
     ## Create traversal table and rates
@@ -45,6 +45,11 @@ methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function
     ## Compute the marginal transitions
     margTrans=epiAllele:::marginalTransitionsCpp(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi),
                                                  siblings=siblingList)
+    out=list()
+    for(k in 1:nrow(tt)){
+      out[[paste0(tt$parent[k],"-",tt$child[k])]]=margTrans[k,,]
+    }
+    return(out)
   }
-  return(margTrans)
+  return(groupTrans)
 })
