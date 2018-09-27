@@ -48,8 +48,8 @@ postorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, nNode, 
     .Call('_epiAllele_postorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, nNode, ncores)
 }
 
-preorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, siblings, nNode, ncores = 1L) {
-    .Call('_epiAllele_preorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, siblings, nNode, ncores)
+preorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, siblings, nNode, root, ncores = 1L) {
+    .Call('_epiAllele_preorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, siblings, nNode, root, ncores)
 }
 
 #' probToStick 
