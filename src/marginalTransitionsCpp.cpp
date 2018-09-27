@@ -29,16 +29,17 @@ arma::cube marginalTransitionsCpp(const NumericMatrix& data, const NumMatList& t
     NumericMatrix alpha=postorderMessagePassing((Rcpp::NumericVector) data(i,_),tMat,traversal,nTips,logPi,nNode);
     NumericMatrix beta=preorderMessagePassing((Rcpp::NumericVector) data(i,_),tMat,traversal,nTips,logPi,alpha,siblings,nNode,root);
     for(int e=0; e<traversal.nrow();e++){
+      arma::mat transP(nAlleles,nAlleles,arma::fill::zeros); // The probability of each transition
       int parentInd=traversal(e,0);
       int childInd=traversal(e,1);
       for(int a=0;a<nAlleles;a++){ // iterate over parent alleles
         for(int b=0;b<nAlleles;b++){ // iterate over child alleles
-          expectedTransitions(e,a,b) = beta(parentInd,a)+ tMat[childInd](a,b) + alpha(childInd,b);
+          transP(a,b) = beta(parentInd,a)+ tMat[childInd](a,b) + alpha(childInd,b);
         }
       }
       // Compute partition function
-      double Z = logSumExpArma(arma::vectorise((arma::mat) expectedTransitions(arma::span(e),arma::span::all,arma::span::all)));
-      expectedTransitions(arma::span(e),arma::span::all,arma::span::all)=expectedTransitions(arma::span(e),arma::span::all,arma::span::all)-Z;
+      double Z = logSumExpArma(arma::vectorise(transP));
+      expectedTransitions(arma::span(e),arma::span::all,arma::span::all)=((arma::mat)expectedTransitions(arma::span(e),arma::span::all,arma::span::all))+exp(transP-Z);
     }
   }
   return(expectedTransitions);
