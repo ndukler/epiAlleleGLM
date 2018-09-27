@@ -6,7 +6,7 @@
 \arguments{
 \item{obj}{rateModel object}
 
-\item{subset}{The site indices for which should be summed over to compute the total number of expected transitions}
+\item{subset}{The site indices for which should be summed over to compute the total number of expected transitions (NOT IMPLEMENTED)}
 }
 \value{
 A 3-dimensional vectors where the first index is the branch, the second is the state of the parent, and the third 

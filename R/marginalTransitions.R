@@ -2,7 +2,7 @@
 #'
 #' Compute the number of expected transitions per branch between states based on the marginal joint probabilities
 #' @param obj rateModel object
-#' @param subset The site indices for which should be summed over to compute the total number of expected transitions
+#' @param subset The site indices for which should be summed over to compute the total number of expected transitions (NOT IMPLEMENTED)
 #' @return A 3-dimensional vectors where the first index is the branch, the second is the state of the parent, and the third 
 #' is the state of the child. The entries are the exprected number of transitions on that branch for the corresponding parent
 #' and child states.
