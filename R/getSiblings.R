@@ -4,13 +4,13 @@
 #' @param tr phylo object
 #' @param node
 #' @return The node numbers of sibbling nodes
-#' @name getSibblings
+#' @name getSiblings
 #' @include rateModel-class.R
-#' @rdname getSibblings
+#' @rdname getSiblings
 #' @examples
 #' 
 #' @export
-getSibblings = function(tr,node){
+getSiblings = function(tr,node){
   if(!inherits(tr,"phylo")) {
     stop("tree should be an object of class \"phylo\".")
   }

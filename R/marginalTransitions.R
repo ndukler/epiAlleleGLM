@@ -21,24 +21,29 @@ methods::setGeneric("marginalTransitions", function(obj,subset=NULL) {
 methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function(obj,subset=NULL) {
   siteTypes=levels(obj@siteLabels$siteLabel)
   nTips=length(getTree(obj)$tip.label)
-  ## Extract subset of data for site
-  data=getAlleleData(obj)@data[subset,drop=FALSE]
-  ## Create traversal table and rates
-  tt=data.table::data.table(getTree(obj)$edge)
-  data.table::setnames(x = tt,old=colnames(tt),c("parent","child"))
-  rates=getParams(obj)[getRateIndex(obj,edges = tt,siteLabel = l)]
-  pi=getParams(obj)[getPiIndex(obj,siteLabel = l)]
-  ## Compute transition matricies
-  ltm=branchRateMatrix(rate = rates,branch.length =  getTree(obj)$edge.length,pi = pi)
-  ## Re-sort logTransMat so that the matricies are ordered in the list by the node number of the child
-  logTransMat=list()
-  logTransMat[tt$child]=ltm
   ## Create a list of all siblings for each node 
-  sibblingList=list()
+  siblingList=list()
   for(n in sort(unique(as.numeric(tr$edge)))){
-    sibblingList[[n]]=getSibblings(getTree(obj),n)
+    siblingList[[n]]=getSiblings(getTree(obj),n)
   }
-  ## Compute the marginal transitions
-  margTrans=marginalTransitionsCpp(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi),sibblings=sibblingList)
+   # l = siteTypes[1]
+  `%myPar%` <- ifelse(foreach::getDoParRegistered(), yes = foreach::`%dopar%`, no = foreach::`%do%`)
+  siteGroupLik=foreach::foreach(l=siteTypes) %myPar% {
+    ## Extract subset of data for site
+    data=getAlleleData(obj)@data[getLabelIndices(obj,l),,drop=FALSE]
+    ## Create traversal table and rates
+    tt=data.table::data.table(getTree(obj)$edge)
+    data.table::setnames(x = tt,old=colnames(tt),c("parent","child"))
+    rates=getParams(obj)[getRateIndex(obj,edges = tt,siteLabel = l)]
+    pi=getParams(obj)[getPiIndex(obj,siteLabel = l)]
+    ## Compute transition matricies
+    ltm=branchRateMatrix(rate = rates,branch.length =  getTree(obj)$edge.length,pi = pi)
+    ## Re-sort logTransMat so that the matricies are ordered in the list by the node number of the child
+    logTransMat=list()
+    logTransMat[tt$child]=ltm
+    logTransMat[[tt$parent[nrow(tt)]]]=matrix(0,length(pi),length(pi)) ## placeholder matrix to avoid error when passing to Rcpp
+    ## Compute the marginal transitions
+    margTrans=epiAllele:::marginalTransitionsCpp(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi),sibblings=sibblingList)
+  }
   return(margTrans)
 })

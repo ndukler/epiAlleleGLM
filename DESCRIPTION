@@ -48,7 +48,7 @@ Collate:
     'getParams.R'
     'getPiIndex.R'
     'getRateIndex.R'
-    'getSibbings.R'
+    'getSiblings.R'
     'getSiteInfo.R'
     'getTree.R'
     'logLikelihood.R'
