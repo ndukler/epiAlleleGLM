@@ -3,6 +3,7 @@
 #' Compute the number of expected transitions per branch between states based on the marginal joint probabilities
 #' @param obj rateModel object
 #' @param subset The site indices for which should be summed over to compute the total number of expected transitions (NOT IMPLEMENTED)
+#' @param ncores Number of cores to use
 #' @return A 3-dimensional vectors where the first index is the branch, the second is the state of the parent, and the third 
 #' is the state of the child. The entries are the exprected number of transitions on that branch for the corresponding parent
 #' and child states.
@@ -12,18 +13,18 @@
 #' @examples
 #' 
 #' @export
-methods::setGeneric("marginalTransitions", function(obj,subset=NULL) {
+methods::setGeneric("marginalTransitions", function(obj,subset=NULL,ncores=1) {
   standardGeneric("marginalTransitions")
 })
 
 #' @name marginalTransitions
 #' @rdname marginalTransitions
-methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function(obj,subset=NULL) {
+methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function(obj,subset=NULL,ncores=1) {
   siteTypes=levels(obj@siteLabels$siteLabel)
   nTips=length(getTree(obj)$tip.label)
   ## Create a list of all siblings for each node 
   siblingList=list()
-  for(n in sort(unique(as.numeric(tr$edge)))){
+  for(n in sort(unique(as.numeric(getTree(obj)$edge)))){
     siblingList[[n]]=getSiblings(getTree(obj),n)-1
   }
   #  l = siteTypes[1]
@@ -43,8 +44,8 @@ methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function
     logTransMat[tt$child]=ltm
     logTransMat[[tt$parent[nrow(tt)]]]=matrix(0,length(pi),length(pi)) ## placeholder matrix to avoid error when passing to Rcpp
     ## Compute the marginal transitions
-    margTrans=epiAllele:::marginalTransitionsCpp(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi),
-                                                 siblings=siblingList)
+    margTrans=epiAllele:::marginalTransitionsCpp(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,
+                                                 logPi=log(pi),siblings=siblingList,ncores=ncores)
     out=list()
     for(k in 1:nrow(tt)){
       out[[paste0(tt$parent[k],"-",tt$child[k])]]=margTrans[k,,]
