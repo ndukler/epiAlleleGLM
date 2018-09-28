@@ -28,8 +28,8 @@ methods::setMethod("marginalTransitions", signature(obj = "rateModel"), function
     siblingList[[n]]=getSiblings(getTree(obj),n)-1
   }
   #  l = siteTypes[1]
-  `%myPar%` <- ifelse(foreach::getDoParRegistered(), yes = foreach::`%dopar%`, no = foreach::`%do%`)
-  groupTrans=foreach::foreach(l=siteTypes) %myPar% {
+  ## `%myPar%` <- ifelse(foreach::getDoParRegistered(), yes = foreach::`%dopar%`, no = foreach::`%do%`)
+  groupTrans=foreach::foreach(l=siteTypes,.inorder = TRUE, .final = function(x) setNames(x, siteTypes)) %do% {
     ## Extract subset of data for site
     data=getAlleleData(obj)@data[getLabelIndices(obj,l),,drop=FALSE]
     ## Create traversal table and rates
