@@ -27,7 +27,11 @@ methods::setMethod("plotTree", signature(obj = "alleleData"), function(obj,offse
     ggtree::theme_tree2()+
     ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)
   if(nodeLabels){g <- g+ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)}
-    if(!is.null(xmax)) {g=g+ggtree::xlim_tree(xlim = xmax)}
+  ## Copied over code from ggtree since xlim_expand not available for older versions of R/Bioconductor
+  if(!is.null(xmax)) {
+    dummy <- data.frame(x=xmax, .panel=panel)
+    g=g+geom_blank(aes_(x=~x), dummy, inherit.aes = FALSE)
+  }
   return(g)
 })
 
@@ -69,7 +73,10 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
     ggplot2::theme(legend.position="right")+
     ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)
   if(nodeLabels){g <- g+ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)}
-  if(!is.null(xmax)) {g=g+ggtree::xlim_tree(xlim = xmax)}
+  if(!is.null(xmax)) {
+    dummy <- data.frame(x=xmax, .panel=panel)
+    g=g+geom_blank(aes_(x=~x), dummy, inherit.aes = FALSE)
+  }
   ## Merge in new data
   g$data=merge(g$data,temp,by = c(".id","node"),all.x = TRUE)   
   ## Color by indicated option
