@@ -7,6 +7,7 @@
 #' @param offset How much to offset tip labels by
 #' @param xmax Maximum value of x axis in tree plots (Note: if you want different x axis for different tree 
 #' plots use \link[ggtree]{xlim_expand} on the returned object)
+#' @param nodeLabels if TRUE label nodes with numbers
 #' @name plotTree
 #' @include alleleData-class.R
 #' @include rateModel-class.R
@@ -20,12 +21,12 @@ methods::setGeneric("plotTree", function(obj,...) {
 
 #' @name plotTree
 #' @rdname plotTree
-methods::setMethod("plotTree", signature(obj = "alleleData"), function(obj,offset=0.1,xmax=NULL) {
+methods::setMethod("plotTree", signature(obj = "alleleData"), function(obj,offset=0.1,xmax=NULL,nodeLabels=TRUE) {
   tempTree=getTree(obj)
   g <- ggtree::ggtree(tempTree)+
-    ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)+
     ggtree::theme_tree2()+
     ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)
+  if(nodeLabels){g <- g+ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)}
     if(!is.null(xmax)) {g=g+ggtree::xlim_tree(xlim = xmax)}
   return(g)
 })
@@ -33,7 +34,7 @@ methods::setMethod("plotTree", signature(obj = "alleleData"), function(obj,offse
 #' @name plotTree
 #' @rdname plotTree
 methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorByRate=c("index","value"),scaleBranches=FALSE,
-                                                                      offset=0.1,xmax=NULL) {
+                                                                      offset=0.1,xmax=NULL,nodeLabels=TRUE) {
   ## Checks and default setting
   if(length(colorByRate)>1) colorByRate="index"
   if(!colorByRate %in% c("index","value")) stop("colorByRate must be either \'index'\ or \'value\'")
@@ -62,12 +63,12 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
 
   ## plot building
   g <- ggtree::ggtree(trList)+
-    ggplot2::geom_label(ggplot2::aes(label=node),color="black", hjust=0.5)+
     ggtree::theme_tree2()+
     ggplot2::facet_wrap(~.id, scale="free") + 
     ggplot2::theme(legend.position = "bottom")+
     ggplot2::theme(legend.position="right")+
     ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)
+  if(nodeLabels){g <- g+ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)}
   if(!is.null(xmax)) {g=g+ggtree::xlim_tree(xlim = xmax)}
   ## Merge in new data
   g$data=merge(g$data,temp,by = c(".id","node"),all.x = TRUE)   

@@ -14,6 +14,8 @@
 
 \item{xmax}{Maximum value of x axis in tree plots (Note: if you want different x axis for different tree 
 plots use \link[ggtree]{xlim_expand} on the returned object)}
+
+\item{nodeLabels}{if TRUE label nodes with numbers}
 }
 \description{
 Plots tree with various helpful highlightings
