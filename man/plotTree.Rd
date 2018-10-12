@@ -16,6 +16,8 @@
 plots use \link[ggtree]{xlim_expand} on the returned object)}
 
 \item{nodeLabels}{if TRUE label nodes with numbers}
+
+\item{nodeLabels}{if TRUE label tips with names}
 }
 \description{
 Plots tree with various helpful highlightings

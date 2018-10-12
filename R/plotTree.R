@@ -8,6 +8,7 @@
 #' @param xmax Maximum value of x axis in tree plots (Note: if you want different x axis for different tree 
 #' plots use \link[ggtree]{xlim_expand} on the returned object)
 #' @param nodeLabels if TRUE label nodes with numbers
+#' @param nodeLabels if TRUE label tips with names
 #' @name plotTree
 #' @include alleleData-class.R
 #' @include rateModel-class.R
@@ -21,11 +22,11 @@ methods::setGeneric("plotTree", function(obj,...) {
 
 #' @name plotTree
 #' @rdname plotTree
-methods::setMethod("plotTree", signature(obj = "alleleData"), function(obj,offset=0.1,xmax=NULL,nodeLabels=TRUE) {
+methods::setMethod("plotTree", signature(obj = "alleleData"), function(obj,offset=0.1,xmax=NULL,nodeLabels=TRUE,tipLabels=TRUE) {
   tempTree=getTree(obj)
   g <- ggtree::ggtree(tempTree)+
-    ggtree::theme_tree2()+
-    ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)
+    ggtree::theme_tree2()
+  if(tipLabels){g <- ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)}
   if(nodeLabels){g <- g+ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)}
   ## Copied over code from ggtree since xlim_expand not available for older versions of R/Bioconductor
   if(!is.null(xmax)) {
@@ -38,7 +39,7 @@ methods::setMethod("plotTree", signature(obj = "alleleData"), function(obj,offse
 #' @name plotTree
 #' @rdname plotTree
 methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorByRate=c("index","value"),scaleBranches=FALSE,
-                                                                      offset=0.1,xmax=NULL,nodeLabels=TRUE) {
+                                                                      offset=0.1,xmax=NULL,nodeLabels=TRUE,tipLabels=TRUE) {
   ## Checks and default setting
   if(length(colorByRate)>1) colorByRate="index"
   if(!colorByRate %in% c("index","value")) stop("colorByRate must be either \'index'\ or \'value\'")
@@ -70,8 +71,9 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
     ggtree::theme_tree2()+
     ggplot2::facet_wrap(~.id, scale="free") + 
     ggplot2::theme(legend.position = "bottom")+
-    ggplot2::theme(legend.position="right")+
-    ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)
+    ggplot2::theme(legend.position="right")
+  
+  if(tipLabels){g <- ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)}
   if(nodeLabels){g <- g+ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)}
   if(!is.null(xmax)) {
     dummy <- data.frame(x=xmax, .panel='Tree')
