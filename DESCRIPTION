@@ -34,6 +34,7 @@ Collate:
     'rateModel-class.R'
     'bic.R'
     'branchRateMatrix.R'
+    'branchTransitions.R'
     'clone.R'
     'disCharToProb.R'
     'exportScaledTree.R'
@@ -53,7 +54,6 @@ Collate:
     'getTree.R'
     'logLikelihood.R'
     'lrt.R'
-    'marginalTransitions.R'
     'nSites.R'
     'package.R'
     'plotTree.R'
@@ -62,5 +62,6 @@ Collate:
     'scaledLL.R'
     'setParamValue.R'
     'simData.R'
+    'siteTransitions.R'
     'tieRates.R'
 VignetteBuilder: knitr

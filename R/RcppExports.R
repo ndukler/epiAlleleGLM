@@ -66,6 +66,10 @@ setValues <- function(x, ind, val) {
     invisible(.Call('_epiAllele_setValues', PACKAGE = 'epiAllele', x, ind, val))
 }
 
+siteGainLossCpp <- function(data, tMat, traversal, nTips, logPi, siblings, ncores = 1L) {
+    .Call('_epiAllele_siteGainLossCpp', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, siblings, ncores)
+}
+
 #' stickToProb 
 #'
 #' Convert a set of stick breaking parameters to a set of probabilities that sum to one

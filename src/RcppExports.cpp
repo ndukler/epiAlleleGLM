@@ -116,6 +116,23 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// siteGainLossCpp
+arma::cube siteGainLossCpp(const NumericMatrix& data, const NumMatList& tMat, const NumericMatrix& traversal, const double nTips, const NumericVector& logPi, const NumVecList& siblings, int ncores);
+RcppExport SEXP _epiAllele_siteGainLossCpp(SEXP dataSEXP, SEXP tMatSEXP, SEXP traversalSEXP, SEXP nTipsSEXP, SEXP logPiSEXP, SEXP siblingsSEXP, SEXP ncoresSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const NumMatList& >::type tMat(tMatSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type traversal(traversalSEXP);
+    Rcpp::traits::input_parameter< const double >::type nTips(nTipsSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type logPi(logPiSEXP);
+    Rcpp::traits::input_parameter< const NumVecList& >::type siblings(siblingsSEXP);
+    Rcpp::traits::input_parameter< int >::type ncores(ncoresSEXP);
+    rcpp_result_gen = Rcpp::wrap(siteGainLossCpp(data, tMat, traversal, nTips, logPi, siblings, ncores));
+    return rcpp_result_gen;
+END_RCPP
+}
 // stickToProb
 NumericVector stickToProb(NumericVector x);
 RcppExport SEXP _epiAllele_stickToProb(SEXP xSEXP) {
@@ -152,6 +169,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_epiAllele_preorderMessagePassing", (DL_FUNC) &_epiAllele_preorderMessagePassing, 9},
     {"_epiAllele_probToStick", (DL_FUNC) &_epiAllele_probToStick, 1},
     {"_epiAllele_setValues", (DL_FUNC) &_epiAllele_setValues, 3},
+    {"_epiAllele_siteGainLossCpp", (DL_FUNC) &_epiAllele_siteGainLossCpp, 7},
     {"_epiAllele_stickToProb", (DL_FUNC) &_epiAllele_stickToProb, 1},
     {"_epiAllele_treeLL", (DL_FUNC) &_epiAllele_treeLL, 5},
     {NULL, NULL, 0}
