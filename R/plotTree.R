@@ -26,7 +26,7 @@ methods::setMethod("plotTree", signature(obj = "alleleData"), function(obj,offse
   tempTree=getTree(obj)
   g <- ggtree::ggtree(tempTree)+
     ggtree::theme_tree2()
-  if(tipLabels){g <- ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)}
+  if(tipLabels){g <- g+ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)}
   if(nodeLabels){g <- g+ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)}
   ## Copied over code from ggtree since xlim_expand not available for older versions of R/Bioconductor
   if(!is.null(xmax)) {
@@ -73,7 +73,7 @@ methods::setMethod("plotTree", signature(obj = "rateModel"), function(obj,colorB
     ggplot2::theme(legend.position = "bottom")+
     ggplot2::theme(legend.position="right")
   
-  if(tipLabels){g <- ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)}
+  if(tipLabels){g <- g + ggtree::geom_tiplab(show.legend=FALSE,color="black",offset=offset)}
   if(nodeLabels){g <- g+ggplot2::geom_label(ggplot2::aes(label=node), hjust=0.5)}
   if(!is.null(xmax)) {
     dummy <- data.frame(x=xmax, .panel='Tree')
