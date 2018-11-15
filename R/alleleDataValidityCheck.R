@@ -25,9 +25,9 @@ alleleDataValidityCheck <- function(object){
     errors=c(errors,c("Non-valid log-proababilities in alleleData@data. All values must be in [-Inf,0]."))
   }
   ## Check that tree is unrooted
-  if(ape::is.rooted(object@tree)){
-    errors=c(errors,c("Tree must be unrooted."))  
-  }
+  # if(ape::is.rooted(object@tree)){
+  #   errors=c(errors,c("Tree must be unrooted."))  
+  # }
   ## Check that tree is post-ordered
   if(any(object@tree$edge != ape::reorder.phylo(object@tree, "postorder")$edge)){
     errors=c(errors,c("Tree must be sorted in post-order travel order."))  
