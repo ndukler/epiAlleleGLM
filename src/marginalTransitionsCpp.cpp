@@ -1,7 +1,7 @@
 #include <RcppArmadillo.h>
 // [[Rcpp::depends(RcppArmadillo)]]
 #include "logSumExp.h"
-#include "epiAllele_types.h"
+#include "epiAlleleGLM_types.h"
 #include "msgPassing.h"
 using namespace Rcpp;
 

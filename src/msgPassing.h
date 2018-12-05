@@ -3,7 +3,7 @@
 
 #include <RcppArmadillo.h>
 // [[Rcpp::depends(RcppArmadillo)]]
-#include "epiAllele_types.h"
+#include "epiAlleleGLM_types.h"
 using namespace Rcpp;
 
 NumericMatrix postorderMessagePassing(const NumericVector& data, const NumMatList& tMat, const NumericMatrix& traversal, const int nTips, 

@@ -15,11 +15,11 @@ NULL
 #' @param x A numeric vector
 #' @export
 logSumExp <- function(x) {
-    .Call('_epiAllele_logSumExp', PACKAGE = 'epiAllele', x)
+    .Call('_epiAlleleGLM_logSumExp', PACKAGE = 'epiAlleleGLM', x)
 }
 
 marginalTransitionsCpp <- function(data, tMat, traversal, nTips, logPi, siblings, ncores = 1L) {
-    .Call('_epiAllele_marginalTransitionsCpp', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, siblings, ncores)
+    .Call('_epiAlleleGLM_marginalTransitionsCpp', PACKAGE = 'epiAlleleGLM', data, tMat, traversal, nTips, logPi, siblings, ncores)
 }
 
 #' multiProbToStick 
@@ -30,7 +30,7 @@ marginalTransitionsCpp <- function(data, tMat, traversal, nTips, logPi, siblings
 #' @name multiProbToStick
 #' @return a vector of probabilities that sum to one
 multiProbToStick <- function(x, width) {
-    .Call('_epiAllele_multiProbToStick', PACKAGE = 'epiAllele', x, width)
+    .Call('_epiAlleleGLM_multiProbToStick', PACKAGE = 'epiAlleleGLM', x, width)
 }
 
 #' multiStickToProb 
@@ -41,15 +41,15 @@ multiProbToStick <- function(x, width) {
 #' @name multiStickToProb
 #' @return a vector of probabilities that sum to one
 multiStickToProb <- function(x, width) {
-    .Call('_epiAllele_multiStickToProb', PACKAGE = 'epiAllele', x, width)
+    .Call('_epiAlleleGLM_multiStickToProb', PACKAGE = 'epiAlleleGLM', x, width)
 }
 
 postorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, nNode) {
-    .Call('_epiAllele_postorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, nNode)
+    .Call('_epiAlleleGLM_postorderMessagePassing', PACKAGE = 'epiAlleleGLM', data, tMat, traversal, nTips, logPi, nNode)
 }
 
 preorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, alpha, siblings, nNode, root) {
-    .Call('_epiAllele_preorderMessagePassing', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, alpha, siblings, nNode, root)
+    .Call('_epiAlleleGLM_preorderMessagePassing', PACKAGE = 'epiAlleleGLM', data, tMat, traversal, nTips, logPi, alpha, siblings, nNode, root)
 }
 
 #' probToStick 
@@ -59,15 +59,15 @@ preorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, alpha, s
 #' @name probToStick
 #' @return a vector of parameters for a stick breaking parameters
 probToStick <- function(x) {
-    .Call('_epiAllele_probToStick', PACKAGE = 'epiAllele', x)
+    .Call('_epiAlleleGLM_probToStick', PACKAGE = 'epiAlleleGLM', x)
 }
 
 setValues <- function(x, ind, val) {
-    invisible(.Call('_epiAllele_setValues', PACKAGE = 'epiAllele', x, ind, val))
+    invisible(.Call('_epiAlleleGLM_setValues', PACKAGE = 'epiAlleleGLM', x, ind, val))
 }
 
 siteGainLossCpp <- function(data, tMat, traversal, nTips, logPi, siblings, ncores = 1L) {
-    .Call('_epiAllele_siteGainLossCpp', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi, siblings, ncores)
+    .Call('_epiAlleleGLM_siteGainLossCpp', PACKAGE = 'epiAlleleGLM', data, tMat, traversal, nTips, logPi, siblings, ncores)
 }
 
 #' stickToProb 
@@ -77,10 +77,10 @@ siteGainLossCpp <- function(data, tMat, traversal, nTips, logPi, siblings, ncore
 #' @name stickToProb
 #' @return a vector of probabilities that sum to one
 stickToProb <- function(x) {
-    .Call('_epiAllele_stickToProb', PACKAGE = 'epiAllele', x)
+    .Call('_epiAlleleGLM_stickToProb', PACKAGE = 'epiAlleleGLM', x)
 }
 
 treeLL <- function(data, tMat, traversal, nTips, logPi) {
-    .Call('_epiAllele_treeLL', PACKAGE = 'epiAllele', data, tMat, traversal, nTips, logPi)
+    .Call('_epiAlleleGLM_treeLL', PACKAGE = 'epiAlleleGLM', data, tMat, traversal, nTips, logPi)
 }
 

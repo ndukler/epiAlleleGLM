@@ -1,7 +1,7 @@
 #include <RcppArmadillo.h>
 // [[Rcpp::depends(RcppArmadillo)]]
 #include "logSumExp.h"
-#include "epiAllele_types.h"
+#include "epiAlleleGLM_types.h"
 
 // Forward message passing for a single site
 // [[Rcpp::export]]

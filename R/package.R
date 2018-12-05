@@ -8,6 +8,6 @@
 #' @importFrom foreach %do%
 #' @importFrom foreach %dopar%
 #' @importFrom ggtree %<+%
-#' @useDynLib epiAllele
-#' @name epiAllele
+#' @useDynLib epiAlleleGLM
+#' @name epiAlleleGLM
 NULL

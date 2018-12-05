@@ -1,4 +1,4 @@
-Package: epiAllele
+Package: epiAlleleGLM
 Type: Package
 Title: Tests for signals of variable rates of evolution between gene classes and lineages for probabalistic alleles
 Version: 0.1
