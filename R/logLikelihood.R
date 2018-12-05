@@ -18,28 +18,32 @@ methods::setGeneric("logLikelihood", function(x,obj,...) {
 #' @name logLikelihood
 #' @rdname logLikelihood
 methods::setMethod("logLikelihood", signature(x="missing",obj = "rateModel"), function(x,obj) {
-  siteTypes=levels(obj@siteLabels$siteLabel)
   nTips=length(getTree(obj)$tip.label)
-  # l = siteTypes[1]
+  nSites=getAlleleData(obj)@nSites
+  ## Create traversal table and rates
+  tt=data.table::data.table(getTree(obj)$edge)
+  data.table::setnames(x = tt,old=colnames(tt),c("parent","child"))
+  ## Map edges to edge groups
+  ttAug=getEdgeGroupTable(obj)[with(tt,paste0(parent,"-",child))]
+  ## Iterate over unique edgeGroups and compute rates for them
+  rateMatrix=Matrix::Matrix(1,nrow=nSites,ncol=nrow(tt))
+  for(e in unique(ttAug$edgeGroup)){
+      rateMatrix[,e==ttAug$edgeGroup]=epiAllele:::computeRates(obj,e)
+  }
+  pi=epiAllele:::computePi(obj)
   `%myPar%` <- ifelse(foreach::getDoParRegistered(), yes = foreach::`%dopar%`, no = foreach::`%do%`)
-  siteGroupLik=foreach::foreach(l=siteTypes) %myPar% {
-    ## Extract subset of data for site
-    data=getAlleleData(obj)@data[getLabelIndices(obj,l),,drop=FALSE]
-    ## Create traversal table and rates
-    tt=data.table::data.table(getTree(obj)$edge)
-    data.table::setnames(x = tt,old=colnames(tt),c("parent","child"))
-    rates=getParams(obj)[getRateIndex(obj,edges = tt,siteLabel = l)]
-    pi=getParams(obj)[getPiIndex(obj,siteLabel = l)]
+  siteLik=foreach::foreach(i=1:nSites) %myPar% {
     ## Compute transition matricies
-    ltm=branchRateMatrix(rate = rates,branch.length =  getTree(obj)$edge.length,pi = pi)
+    ltm=branchRateMatrix(rate = rateMatrix[i,],branch.length =  getTree(obj)$edge.length,pi = pi[i,])
     ## Re-sort logTransMat so that the matricies are ordered in the list by the node number of the child
     logTransMat=list()
     logTransMat[tt$child]=ltm
     logTransMat[[tt$parent[nrow(tt)]]]=matrix(0,length(pi),length(pi)) ## placeholder matrix to avoid error when passing to Rcpp
     ## Compute log-likelihood
     siteLik=treeLL(data=data,tMat=logTransMat,traversal=as.matrix(tt-1),nTips=nTips,logPi=log(pi))
-    return(sum(siteLik))
+    return(siteLik)
   }
+
   ll=sum(unlist(siteGroupLik))
   return(ll)
 })

@@ -6,7 +6,7 @@
 \arguments{
 \item{obj}{rateModel object}
 
-\item{siteLabel}{A character vector of length one for one of the site labels}
+\item{allele}{The column index of the corresponding allele}
 }
 \value{
 A numeric vector of parameter indices

@@ -4,19 +4,16 @@
 \alias{rateModel}
 \title{rateModel}
 \usage{
-rateModel(data, siteLabelCriteria = NULL, lineageTable = NULL,
-  rate = NULL, pi = NULL)
+rateModel(data, rateFormula, piFormula = NULL, lineageTable = NULL)
 }
 \arguments{
 \item{data}{An alleleData object}
 
-\item{siteLabelCriteria}{A charecter vector of the columns in siteData contained in alleleData label genomic regions}
+\item{rateFormula}{A formula that uses the variables in the allele data object to compute turnover rate}
+
+\item{piFormula}{A formula that uses the variables in the allele data object to compute pi (if NULL uses the same as rateFormula)}
 
 \item{lineageTable}{A table with columns parent,child,edgeID, and rateGroup, where rateGroup is used to specify how the rates are tied between the branches}
-
-\item{rate}{Starting value for rate parameter. (Default: 0.1)}
-
-\item{pi}{Starting frequencies for allele stationary distribution. Must be the same length as the number of alleles. Default is a uniform probability.}
 }
 \value{
 an rateModel object

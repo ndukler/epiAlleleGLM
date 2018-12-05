@@ -36,7 +36,7 @@ ad=alleleData(data=aData,tree=tree,siteInfo = siteLabels)
 Now create a rate model specifying that genomic regions should be seperated by both cre.class and go.class.
 
 ```{r}
-rateMod=rateModel(ad,siteLabelCriteria = c("cre.class","go.class"))
+rateMod=rateModel(ad,rateFormula=formula(~cre.class+go.class))
 ```
 
 Note that the model assumes that all different genomic regions have different rate parameters. This can be seen using the plotTree command.

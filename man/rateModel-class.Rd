@@ -9,12 +9,24 @@ Class \code{rateModel} holds a rate model for a set of alleles
 \section{Slots}{
 
 \describe{
-\item{\code{alleleData}}{an allele data object}
+\item{\code{alleleData}}{an allele data object in a locked environment}
 
 \item{\code{edgeGroups}}{a data.table with four columns: parent, child, edgeID, edgeGroup. EdgeIDs must match those of alleleData object.}
 
-\item{\code{siteLabelCriteria}}{a character vector containing the names of the columns in alleleData@siteInfo to use to label sites}
+\item{\code{rateFormula}}{A formula that uses the variables in the allele data object to compute turnover rate}
 
-\item{\code{paramEnviron}}{A locked environment that contains three elements params, paramIndex, and fixed}
+\item{\code{piFormula}}{A formula that uses the variables in the allele data object to compute pi}
+
+\item{\code{rateDM}}{the design matrix for the rate}
+
+\item{\code{piDM}}{the design matrix for pi}
+
+\item{\code{params}}{a vector of parameter values}
+
+\item{\code{rateIndex}}{a parameter index for the rate coefficients}
+
+\item{\code{piIndex}}{a parameter index for the pi coefficients}
+
+\item{\code{fixed}}{a logical vector indicating which variables are fixed}
 }}
 

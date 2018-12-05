@@ -2,7 +2,7 @@
 #'
 #' Returns indecies of the stationary distribution parameters associated with a given siteLabel 
 #' @param obj rateModel object
-#' @param siteLabel A character vector of length one for one of the site labels
+#' @param allele The column index of the corresponding allele
 #' @name getPiIndex
 #' @include rateModel-class.R
 #' @rdname getPiIndex
@@ -10,14 +10,17 @@
 #' @examples
 #' 
 #' @export
-methods::setGeneric("getPiIndex", function(obj,siteLabel) {
+methods::setGeneric("getPiIndex", function(obj,allele) {
   standardGeneric("getPiIndex")
 })
 
 #' @name getPiIndex
 #' @rdname getPiIndex
-methods::setMethod("getPiIndex", signature(obj = "rateModel"), function(obj,siteLabel) {
-  sl=siteLabel
-  ind=getParamIndex(obj)[.(sl),on="siteLabel"]$piIndex[1]
-  return(ind:(ind+getAlleleData(obj)@nAlleles-1))
+methods::setMethod("getPiIndex", signature(obj = "rateModel"), function(obj,allele) {
+  if(allele<=1){
+    stop("Allele values must be >1")
+  }
+  al=allele
+  ind=obj@piIndex[.(al)]$index
+  return(ind)
 })

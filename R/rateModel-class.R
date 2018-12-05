@@ -2,45 +2,63 @@
 #'
 #' Class \code{rateModel} holds a rate model for a set of alleles
 #'
-#' @slot alleleData an allele data object
+#' @slot alleleData an allele data object in a locked environment
 #' @slot edgeGroups a data.table with four columns: parent, child, edgeID, edgeGroup. EdgeIDs must match those of alleleData object.
-#' @slot siteLabelCriteria a character vector containing the names of the columns in alleleData@siteInfo to use to label sites
-#' @slot paramEnviron A locked environment that contains three elements params, paramIndex, and fixed
+#' @slot rateFormula A formula that uses the variables in the allele data object to compute turnover rate
+#' @slot piFormula A formula that uses the variables in the allele data object to compute pi
+#' @slot rateDM the design matrix for the rate
+#' @slot piDM the design matrix for pi
+#' @slot params a vector of parameter values
+#' @slot rateIndex a parameter index for the rate coefficients
+#' @slot piIndex a parameter index for the pi coefficients
+#' @slot fixed a logical vector indicating which variables are fixed
 #'
 #' @name rateModel-class
 #' @rdname rateModel-class 
 #' @include rateModelValidityCheck.R
 #' @importClassesFrom data.table data.table
+#' @importClassesFrom Matrix Matrix
 #' @exportClass rateModel
 methods::setClass("rateModel", slots=c(alleleData = "environment",edgeGroups="data.table",
-                                              siteLabelCriteria="character",siteLabels="data.table",
-                                              params="numeric",paramIndex="data.table",fixed="logical"),
+                                       rateFormula="formula",piFormula="formula",rateDM="Matrix",
+                                       piDM="Matrix",params="numeric",rateIndex="data.table",piIndex="data.table",
+                                       fixed="logical"),
                   validity = rateModelValidityCheck)
 
 #' rateModel
 #'
 #' Contructs an object that holds a rate model for a set of alleles
 #' @param data An alleleData object
-#' @param siteLabelCriteria A charecter vector of the columns in siteData contained in alleleData label genomic regions
+#' @param rateFormula A formula that uses the variables in the allele data object to compute turnover rate
+#' @param piFormula A formula that uses the variables in the allele data object to compute pi (if NULL uses the same as rateFormula)
 #' @param lineageTable A table with columns parent,child,edgeID, and rateGroup, where rateGroup is used to specify how the rates are tied between the branches
-#' @param rate Starting value for rate parameter. (Default: 0.1)
-#' @param pi Starting frequencies for allele stationary distribution. Must be the same length as the number of alleles. Default is a uniform probability.
 #' @name rateModel
 #' @return an rateModel object
 #' @examples
 #'
 #' @export
-rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi=NULL){
+rateModel <- function(data,rateFormula,piFormula=NULL,lineageTable=NULL){
   ## ** Validity checks and default setting** ##
   ## Check that data is of class alleleData
   if(class(data)!="alleleData"){
     stop("data must be of class alleleData")
   }
-  ## Check that all siteLabelCriteria elements are columns in alleleData@siteInfo
-  if(!is.null(siteLabelCriteria) && !all(siteLabelCriteria %in% colnames(data@siteInfo))){
-    diff=setdiff(siteLabelCriteria,colnames(data@siteInfo))
-    diff=paste0("\'",diff,"\'")
-    stop(paste("Labels",diff,"are not columns in data@siteInfo",collapse = ", "))
+  ## Check that a rate formula is specified as a formula
+  if(class(rateFormula)!="formula"){
+    stop("rateFormula must be a formula")
+  }
+  ## If piFormula is NULL set equal to rateFormula
+  if(is.null(piFormula)){
+    write("piFormula is not specified, using same formula as rateFormula...")
+    piFormula=rateFormula
+  }
+  ## Check that all coavariates specified in rateFormula are contained in siteInfo
+  if(!all(all.vars(rateFormula) %in% colnames(getSiteInfo(data)))){
+    stop("Some of the covariates in the rateFormula are not present in the siteInfo of the alleleData object.")
+  }
+  ## Check that all coavariates specified in piFormula are contained in siteInfo
+  if(!all(all.vars(piFormula) %in% colnames(getSiteInfo(data)))){
+    stop("Some of the covariates in the piFormula are not present in the siteInfo of the alleleData object.")
   }
   ## Checks for lineage table validity
   if(!is.null(lineageTable)){
@@ -58,68 +76,49 @@ rateModel <- function(data,siteLabelCriteria=NULL,lineageTable=NULL,rate=NULL,pi
     lineageTable=getEdgeTable(data)
     lineageTable[,edgeGroup:="e1"]
   }
-  ## If pi is not NULL, check that it is the same length as the number of alleles, otherwise set to default
-  if(!is.null(pi)){
-    if(length(pi) != data@nAlleles){
-      stop("The length of the pi vector must be the same as the number of alleles")
-    }
-  } else {
-    pi=rep(1,data@nAlleles)
-  }
-  ## If rate is not null, check that it is either length 1 or the same length as the number of edge groups, 
-  ## otherwise set to default
-  if(!is.null(rate)){
-    if(length(rate) != 1){
-      stop("Length of the rate vector must be one")
-    } else if(any(rate<=0)){
-      stop("All rates must be greater than zero")
-    } 
-  } else {
-    ## Default rate expects one event per site
-    rate=1/sum(getTree(ad)$edge.length)
-  }
-  
+
   ## ** Intermediate reformating and computation ** ##
   ## Create environment to hold parameter values and associated indices, etc.
   adEnviron=new.env()
   adEnviron$alleleData=data
   
-  ## Renormalize pi
-  pi=pi/sum(pi)
+  ## Create the design matrix for the rate variable
+  rateDM=Matrix::Matrix(model.matrix(rateFormula,getSiteInfo(data)))
+  ## Create pi design matrix
+  if(isTRUE(all.equal.formula(rateFormula,piFormula))){
+    piDM=rateDM
+  } else {
+    piDM=Matrix::Matrix(model.matrix(piFormula,getSiteInfo(data)))
+  }
   
   ## Standardize format for lineageTable
   lineageTable[,c("parent","child"):=as.list(as.integer(unlist(strsplit(edgeID,split = "-")))),by="edgeID"]
   data.table::setcolorder(lineageTable,c("parent","child","edgeID","edgeGroup"))
   data.table::setkeyv(x = lineageTable,cols = c("edgeID"))
   
-  ## Create labels for each site  if(){
-  if(is.null(siteLabelCriteria)){
-    siteLabels=data.table::data.table(siteLabel=factor(rep("All",nrow(data@data))),index=1:nrow(data@data))
-    siteLabelCriteria=character(0)
-  } else {
-    siteLabels=getSiteInfo(data)[,..siteLabelCriteria][,.(siteLabel=do.call(paste, c(.SD, sep = "_")))]
-    siteLabels[,siteLabel:=factor(siteLabel)]
-    siteLabels[,index:=1:nrow(siteLabels)]
-  }
-  data.table::setkeyv(siteLabels,c("index","siteLabel"))
-  
   ## Create parameter index
-  paramIndex=data.table::data.table(expand.grid(edgeGroup=as.character(unique(lineageTable$edgeGroup)),
-                                                   siteLabel=as.character(levels(siteLabels$siteLabel)),stringsAsFactors = FALSE))
-  paramIndex=paramIndex[order(siteLabel,edgeGroup)] ## Order this way so that parameter indicies are grouped by site
-  paramIndex[,rateIndex:=1:nrow(paramIndex)]
-  paramIndex[,piIndex:=(max(rateIndex)+1)+((as.numeric(as.factor(siteLabel))-1)*data@nAlleles)]
-  data.table::setkeyv(x = paramIndex,cols = c("edgeGroup","siteLabel"))
+  rateIndex=data.table::data.table(expand.grid(edgeGroup=as.character(unique(lineageTable$edgeGroup))),
+                                 column=1:ncol(rateDM),stringsAsFactors = FALSE)
+  piIndex=data.table::data.table(expand.grid(allele=2:data@nAlleles,
+                               column=1:ncol(piDM),stringsAsFactors = FALSE))
+  ## Add covariate names
+  rateIndex[,name:=colnames(rateDM)[column]]
+  piIndex[,name:=colnames(piDM)[column]]
+  ## Order in index so they match the column order of the design matricies
+  rateIndex[,index:=1:nrow(rateIndex)]
+  piIndex[,index:=(nrow(rateIndex)+1):(nrow(rateIndex)+nrow(piIndex))]
+  ## Set index jeys  
+  data.table::setkeyv(x = rateIndex,cols = c("edgeGroup","column"))
+  data.table::setkeyv(x = piIndex,cols = c("allele","column"))
   
   ## Build the parameter vector
-  params=numeric(max(paramIndex$piIndex)+data@nAlleles-1)
-  params[1:max(paramIndex$rateIndex)]=rate
-  params[(max(paramIndex$rateIndex)+1):(max(paramIndex$piIndex)+data@nAlleles-1)]=rep(pi,length(unique(paramIndex$siteLabel)))
+  params=rep(1,nrow(rateIndex)+nrow(piIndex))
   
   ## Set fixed vector to default to FALSE
   fixed=logical(length(params))
   
   ## ** Object construction ** ##
-  methods::new("rateModel",alleleData=adEnviron,edgeGroups=lineageTable,siteLabelCriteria=siteLabelCriteria,
-               siteLabels=siteLabels,params=params,paramIndex=paramIndex,fixed=fixed)
+  methods::new("rateModel",alleleData=adEnviron,edgeGroups=lineageTable,rateFormula=rateFormula,
+              piFormula=piFormula,rateDM=rateDM,piDM=piDM,params=params,rateIndex=rateIndex,piIndex=piIndex,
+              fixed=fixed)
 }

@@ -12,25 +12,22 @@ rateModelValidityCheck <- function(object){
   if(!setequal(data.table::key(object@edgeGroups),c("edgeID"))){
     errors=c(errors,"Key of edgeGroups must be \'edgeID\'")
   }
-  if(!setequal(colnames(object@siteLabels),c("siteLabel","index"))){
-    errors=c(errors,"object@siteLabels must have two columns, \'siteLabel\' and \'index\'")  
-  }
 
-  ## Checks for paramIndex 
-  if(!setequal(colnames(object@paramIndex),c("edgeGroup","siteLabel","rateIndex","piIndex"))){
-    errors=c(errors,"object@paramIndex must have columns \'edgeGroup\', \'siteLabel\', \'rateIndex\', \'piIndex\'")
-  } else if(!setequal(data.table::key(object@paramIndex),c("edgeGroup","siteLabel"))){
-    errors=c(errors,"object@paramIndex must have keys \'edgeGroup\', \'siteLabel\'")
-  }
-  ## Check for the params
-  expLen=max(getParamIndex(object)$piIndex)+getAlleleData(object)@nAlleles-1 ## expected length of parameter vec
-  if(!is.numeric(object@params) || length(object@params) != expLen){
-    errors=c(errors,paste("object@params must be a numeric vector of length",expLen)) 
-  }
-  ## Checks for the fixed vector
-  if(!is.logical(object@fixed) || length(object@fixed) != expLen){
-    errors=c(errors,paste("object@fixed must be a logical vector of length",expLen)) 
-  }
+  # ## Checks for paramIndex 
+  # if(!setequal(colnames(object@paramIndex),c("edgeGroup","siteLabel","rateIndex","piIndex"))){
+  #   errors=c(errors,"object@paramIndex must have columns \'edgeGroup\', \'siteLabel\', \'rateIndex\', \'piIndex\'")
+  # } else if(!setequal(data.table::key(object@paramIndex),c("edgeGroup","siteLabel"))){
+  #   errors=c(errors,"object@paramIndex must have keys \'edgeGroup\', \'siteLabel\'")
+  # }
+  # ## Check that the length of the parameter vector matches the expected length
+  # expLen=max(getParamIndex(object)$piIndex)+getAlleleData(object)@nAlleles-1 ## expected length of parameter vec
+  # if(!is.numeric(object@params) || length(object@params) != expLen){
+  #   errors=c(errors,paste("object@params must be a numeric vector of length",expLen)) 
+  # }
+  # ## Checks for the fixed vector for type and length
+  # if(!is.logical(object@fixed) || length(object@fixed) != expLen){
+  #   errors=c(errors,paste("object@fixed must be a logical vector of length",expLen)) 
+  # }
 
   ## Lock the environment and all the bindings in it if all tests passed
   if (length(errors) == 0){
