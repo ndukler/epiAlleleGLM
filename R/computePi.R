@@ -21,9 +21,8 @@ methods::setMethod("computePi", signature(obj = "rateModel"), function(obj) {
     co[[as.character(a)]]=getParams(obj)[getPiIndex(obj,a)]
   }
   ## Place coefficients in coefficient x allele matrix
-  coMat=Matrix::Matrix(do.call("cbind",co))
+  coMat=do.call("cbind",co)
   ## Compute probabilities for each allele
-  potential=cbind(1,exp(getPiDM(obj) %*% coMat))
-  return(potential/Matrix::rowSums(potential))
+  potential=as.matrix(cbind(1,exp(getPiDM(obj) %*% coMat)))
+  return(potential/rowSums(potential))
 })
-

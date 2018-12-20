@@ -1,5 +1,5 @@
 ---
-title: "Introduction to epiAllele"
+title: "Introduction to epiAlleleGLM"
 author: "Noah Dukler"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -12,7 +12,7 @@ vignette: >
 First create some data and a tree. Pretend that sites are split into two classes, "Enhancer" and "Promoter" and also split by ontology classes "A" and "B".
 
 ```{r}
-library(epiAllele)
+library(epiAlleleGLM)
 ## Set seed for consistency
 set.seed(123)
 ## Simulate random data
@@ -36,7 +36,7 @@ ad=alleleData(data=aData,tree=tree,siteInfo = siteLabels)
 Now create a rate model specifying that genomic regions should be seperated by both cre.class and go.class.
 
 ```{r}
-rateMod=rateModel(ad,rateFormula=formula(~cre.class+go.class))
+rateMod=rateModel(data = ad,rateFormula=formula(~cre.class+go.class))
 ```
 
 Note that the model assumes that all different genomic regions have different rate parameters. This can be seen using the plotTree command.

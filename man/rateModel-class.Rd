@@ -11,7 +11,7 @@ Class \code{rateModel} holds a rate model for a set of alleles
 \describe{
 \item{\code{alleleData}}{an allele data object in a locked environment}
 
-\item{\code{edgeGroups}}{a data.table with four columns: parent, child, edgeID, edgeGroup. EdgeIDs must match those of alleleData object.}
+\item{\code{edgeGroups}}{a data.table with four columns: parent, child, edgeGroup. All parent-child combos must be valid for alleleData object.}
 
 \item{\code{rateFormula}}{A formula that uses the variables in the allele data object to compute turnover rate}
 

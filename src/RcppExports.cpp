@@ -104,6 +104,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rateMatrix
+arma::mat rateMatrix(const arma::vec& pi, double rate, double branchLength);
+RcppExport SEXP _epiAlleleGLM_rateMatrix(SEXP piSEXP, SEXP rateSEXP, SEXP branchLengthSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::vec& >::type pi(piSEXP);
+    Rcpp::traits::input_parameter< double >::type rate(rateSEXP);
+    Rcpp::traits::input_parameter< double >::type branchLength(branchLengthSEXP);
+    rcpp_result_gen = Rcpp::wrap(rateMatrix(pi, rate, branchLength));
+    return rcpp_result_gen;
+END_RCPP
+}
 // setValues
 void setValues(NumericVector& x, NumericVector& ind, NumericVector& val);
 RcppExport SEXP _epiAlleleGLM_setValues(SEXP xSEXP, SEXP indSEXP, SEXP valSEXP) {
@@ -160,6 +173,8 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP _rcpp_module_boot_paramIndex();
+
 static const R_CallMethodDef CallEntries[] = {
     {"_epiAlleleGLM_logSumExp", (DL_FUNC) &_epiAlleleGLM_logSumExp, 1},
     {"_epiAlleleGLM_marginalTransitionsCpp", (DL_FUNC) &_epiAlleleGLM_marginalTransitionsCpp, 7},
@@ -168,10 +183,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"_epiAlleleGLM_postorderMessagePassing", (DL_FUNC) &_epiAlleleGLM_postorderMessagePassing, 6},
     {"_epiAlleleGLM_preorderMessagePassing", (DL_FUNC) &_epiAlleleGLM_preorderMessagePassing, 9},
     {"_epiAlleleGLM_probToStick", (DL_FUNC) &_epiAlleleGLM_probToStick, 1},
+    {"_epiAlleleGLM_rateMatrix", (DL_FUNC) &_epiAlleleGLM_rateMatrix, 3},
     {"_epiAlleleGLM_setValues", (DL_FUNC) &_epiAlleleGLM_setValues, 3},
     {"_epiAlleleGLM_siteGainLossCpp", (DL_FUNC) &_epiAlleleGLM_siteGainLossCpp, 7},
     {"_epiAlleleGLM_stickToProb", (DL_FUNC) &_epiAlleleGLM_stickToProb, 1},
     {"_epiAlleleGLM_treeLL", (DL_FUNC) &_epiAlleleGLM_treeLL, 5},
+    {"_rcpp_module_boot_paramIndex", (DL_FUNC) &_rcpp_module_boot_paramIndex, 0},
     {NULL, NULL, 0}
 };
 

@@ -44,6 +44,9 @@ multiStickToProb <- function(x, width) {
     .Call('_epiAlleleGLM_multiStickToProb', PACKAGE = 'epiAlleleGLM', x, width)
 }
 
+#' @export paramIndex
+NULL
+
 postorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, nNode) {
     .Call('_epiAlleleGLM_postorderMessagePassing', PACKAGE = 'epiAlleleGLM', data, tMat, traversal, nTips, logPi, nNode)
 }
@@ -60,6 +63,10 @@ preorderMessagePassing <- function(data, tMat, traversal, nTips, logPi, alpha, s
 #' @return a vector of parameters for a stick breaking parameters
 probToStick <- function(x) {
     .Call('_epiAlleleGLM_probToStick', PACKAGE = 'epiAlleleGLM', x)
+}
+
+rateMatrix <- function(pi, rate, branchLength) {
+    .Call('_epiAlleleGLM_rateMatrix', PACKAGE = 'epiAlleleGLM', pi, rate, branchLength)
 }
 
 setValues <- function(x, ind, val) {

@@ -16,5 +16,5 @@ methods::setGeneric("computeRates", function(obj,...) {
 #' @name computeRates
 #' @rdname computeRates
 methods::setMethod("computeRates", signature(obj = "rateModel"), function(obj,eg) {
-  return(exp(getRateDM(obj) %*% Matrix::Matrix(getParams(obj)[getRateIndex(obj = obj,edgeGroup = eg)],ncol=1)))
+  return(as.matrix(xp(getRateDM(obj) %*% getParams(obj)[getRateIndex(obj = obj,edgeGroup = eg)],ncol=1)))
 })

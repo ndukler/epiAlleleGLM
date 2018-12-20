@@ -26,15 +26,15 @@ methods::setMethod("logLikelihood", signature(x="missing",obj = "rateModel"), fu
   ## Map edges to edge groups
   ttAug=getEdgeGroupTable(obj)[with(tt,paste0(parent,"-",child))]
   ## Iterate over unique edgeGroups and compute rates for them
-  rateMatrix=Matrix::Matrix(1,nrow=nSites,ncol=nrow(tt))
+  rateMat=Matrix::Matrix(1,nrow=nSites,ncol=nrow(tt))
   for(e in unique(ttAug$edgeGroup)){
-      rateMatrix[,e==ttAug$edgeGroup]=epiAllele:::computeRates(obj,e)
+      rateMat[,e==ttAug$edgeGroup]=epiAllele:::computeRates(obj,e)
   }
-  pi=epiAllele:::computePi(obj)
+  pi=epiAlleleGLM:::computePi(obj)
   `%myPar%` <- ifelse(foreach::getDoParRegistered(), yes = foreach::`%dopar%`, no = foreach::`%do%`)
   siteLik=foreach::foreach(i=1:nSites) %myPar% {
     ## Compute transition matricies
-    ltm=branchRateMatrix(rate = rateMatrix[i,],branch.length =  getTree(obj)$edge.length,pi = pi[i,])
+    ltm=epiAlleleGLM:::branchRateMatrix(rate = rateMat[i,],branch.length =  getTree(obj)$edge.length,pi = pi[i,])
     ## Re-sort logTransMat so that the matricies are ordered in the list by the node number of the child
     logTransMat=list()
     logTransMat[tt$child]=ltm
