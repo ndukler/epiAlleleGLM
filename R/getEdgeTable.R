@@ -14,6 +14,6 @@ methods::setGeneric("getEdgeTable", function(obj) {
 #' 
 #' @export
 methods::setMethod("getEdgeTable", signature(obj = "alleleData"), function(obj) {
-  data.table::data.table(parent=obj@tree$edge[,1],child=obj@tree$edge[,2],edgeID=apply(obj@tree$edge,1,paste,collapse="-"))
+  data.table::data.table(parent=obj@tree$edge[,1],child=obj@tree$edge[,2])
 })
   
